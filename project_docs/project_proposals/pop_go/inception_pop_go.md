@@ -65,7 +65,7 @@ Pop & Go Inception Worksheet
 
 E: Epic  
 U: User Story  
-T: Task  
+T: Task  ss
 
 7. [E] 
     1. [U]
