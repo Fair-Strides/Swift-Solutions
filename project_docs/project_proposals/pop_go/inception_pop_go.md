@@ -25,7 +25,7 @@ Pop & Go Inception Worksheet
     Users Interest : 
         The stakeholders are broad in this area beause we could have an athlete looking events in sports or a specific sport such as soccer to attend a tournament/league. There could be someone who enjoys outdoors and would like to do those types of events. As well as users who are intersted in entertainment and this could be in movie, concerts, and other forms of entertainment events.
 ## Initial Requirements Elaboration and Elicitation
-    See Requirements_template for more
+![Mind Mapping](mind_map.png)
 
 ### Elicitation Questions
     1. Are there any tags in the API or do we have to create our own?
@@ -34,7 +34,7 @@ Pop & Go Inception Worksheet
     4. What can we do to make Tinder-Like Feature better?
 
 ## List of Needs and Features
-    1. User Accounts
+    1. User Accounts    
     2. Access and Support for Google Places and Real-Time Events APIs
     3. Gather upcoming and current events from external APIs
     4. Present User with Categories to specify interested tags
@@ -47,7 +47,8 @@ Pop & Go Inception Worksheet
     11. Random Events section for swiping left and right for interest gathering in 
 
 ## Initial Modeling
-    ![Initial Moideling](initial_modeling.png)
+![Initial Modeling](initial_model.svg)
+
 ### Use Case Diagrams
     Diagrams
 
