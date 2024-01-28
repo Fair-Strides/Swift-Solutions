@@ -1,0 +1,21 @@
+// For use with dbdiagram.io
+
+Table User {
+  ID int [pk, increment]
+  Username nvarchar(128) [not null]
+}
+
+Table Event {
+  ID int [pk, increment]
+  EventApiId int [not null]
+  Title nvarChar(128) [not null]
+  Description Text
+  EventDateTime DateTime [not null]
+  Tags Text
+}
+
+Table SavedEvents {
+  ID int [pk, increment]
+  EventId int [not null]
+  UserId int [not null]
+}
