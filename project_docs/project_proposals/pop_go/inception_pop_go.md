@@ -34,17 +34,32 @@ Pop & Go Inception Worksheet
     4. What can we do to make Tinder-Like Feature better?
 
 ## List of Needs and Features
-    1. User Accounts    
-    2. Access and Support for Google Places and Real-Time Events APIs
-    3. Gather upcoming and current events from external APIs
-    4. Present User with Categories to specify interested tags
-    5. Populate home page with user's Event Feed (if logged in)
-    6. Explore! page to showcase random upcoming events
-    7. Itinerary planner for upcoming travels
-    8. Shopping Cart of events to build a Day Itinerary
-    9. Users need to enter phone number and email for notifications
-    10. Connect with a service for SMS and Email notifications
-    11. Random Events section for swiping left and right for interest gathering in 
+    1. User Accounts
+        1. User Profile pages
+        2. User Interests   
+    2. Random Events section
+        1. Tinder-like cards
+        2. Swiping left and right for interest gathering
+        3. Algorithm for monitoring and tracking interest
+    3. Support for Google Places and Real-Time Events APIs
+        1. Internal APIs
+        2. Search Interface
+        3. Filtered Results
+    4. Gather upcoming and current events from external APIs
+        1. Events from Location
+        2. Events during a time range
+        3. Events within Categories
+    5. Present User with Categories to specify interested tags
+    6. Populate home page with user's Event Feed (if logged in)
+        1. Events within a certain time period (user setting)
+        2. Events displayed per category
+        3. Access events from display
+    7. Explore! page to showcase random upcoming events
+    8. Itinerary planner for upcoming travels
+    9. Shopping Cart of events to build a Day Itinerary
+    10. Users need to enter phone number and email for notifications
+    11. Connect with a service for SMS and Email notifications
+     
 
 ## Initial Modeling
 ![Initial Modeling](initial_model.svg)
