@@ -2,8 +2,8 @@ Pop & Go Inception Worksheet
 =====================================
 
 ## Summary of Our Approach to Software Development
-    What processes are we following?  How will we run this project? ==> Agile, Scrum, ...  
-    What are we choosing to do, how will we do it and at what level of detail or extent?
+
+We are going to follow Agile and Scrum practices to the best of our ability to work together as a team towards a common goal: the creation of a clean, accessible, and professional website. Specifically, a website dedicated to connecting users and communities with current and future events.
 
 ## Initial Vision Discussion with Stakeholders
 
@@ -80,12 +80,29 @@ Users Interest :
 ![Initial Modeling](initial_model.svg)
 
 ### Use Case Diagrams
-    Diagrams
+Event Tags
+![Event Tags](../../use_cases/event_tags.svg)
+
+Tinder Cards
+![Tinder Cards](../../use_cases/tinder_cards.svg)
 
 ### Sequence Diagrams
 
 ### Other Modeling
-    Diagrams, UI wireframes, page flows, ...
+Home Page
+![Home Page](../../ui_diagrams/home_page.svg)
+
+Location Preference
+![Location Preference](../../ui_diagrams/location_tracking.svg)
+
+Selecting Interests
+![Selecting Interests](../../ui_diagrams/tagging_interests.svg)
+
+Explore! Activity
+![Explore Activity](../../ui_diagrams/explore_feature.svg)
+
+Tinder-like Cards
+![Tinder-like Cards](../../ui_diagrams/tinder_cards.svg)
 
 ## Identify Non-Functional Requirements
     1. Needs to have access to Google and Real-Time Event APIs
