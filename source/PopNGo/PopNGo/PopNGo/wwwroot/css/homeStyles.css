@@ -1,0 +1,146 @@
+﻿/*Styles for the welcome page*/
+
+/* Styles for the position */
+.vertical-center {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.text-light {
+    color: #ffffff;
+}
+
+.text-find {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.text-swipe {
+    font-weight: bold;
+    color: #d35400;
+}
+
+/*Styles for the button*/ 
+.button-container {
+    display: flex;
+    justify-content: start; /* Align button to the start of the flex container */
+}
+
+.event-button {
+    background-color: #d35400;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.image-container img {
+    max-width: 100%; /* This will make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Media query for xxl screens */
+@media (min-width: 1400px) {
+    .text-xxl-start {
+        text-align: start;
+    }
+}
+
+.push-left {
+    margin-left: -200px; /* Adjusted to -20px as per your last instructions */
+    margin-top: -110px; /* Moves the image up by 40px */
+}
+
+/*.wp {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}*/
+
+.text-light {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Horizontal offset, vertical offset, blur radius, color */
+}
+
+.text-find {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.text-swipe {
+    font-weight: bold;
+    color: #d35400;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.event-button {
+    /* Existing styles */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .event-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+/*Styles and Animation for button a swipe animation */
+.event-button {
+    background-color: #d35400; /* Initial background color */
+    color: white; /* Initial text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative; /* Needed for the absolute positioning of the pseudo-element */
+    overflow: hidden; /* Ensure the pseudo-element does not overflow the button boundaries */
+    transition: color 0.3s ease; /* Transition for text color */
+    z-index: 1;
+}
+
+    .event-button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white; /* Swipe effect color */
+        z-index: -1;
+        transform: translateX(-100%); /* Start from the left, hidden */
+        transition: transform 0.3s ease; /* Transition for the swipe effect */
+    }
+
+    .event-button:hover::after {
+        transform: translateX(0); /* End position - fully visible */
+    }
+
+    .event-button:hover {
+        color: #d35400; /* Text color change on hover */
+    }
+
+.event {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+    .event img {
+        max-width: 100px;
+        height: auto;
+    }
+
+.tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #eee;
+    padding: 2px 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+}

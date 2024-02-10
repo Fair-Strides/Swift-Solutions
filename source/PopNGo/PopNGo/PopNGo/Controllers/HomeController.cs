@@ -18,6 +18,15 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult WelcomePage()
+    {
+        return View();
+    }
+    public IActionResult ExplorePage()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
