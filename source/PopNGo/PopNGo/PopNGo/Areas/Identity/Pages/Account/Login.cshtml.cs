@@ -48,6 +48,14 @@ namespace PopNGo.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         /// <summary>
+        ///    This property is used to display a confirmation message when the user is redirected
+        ///    to the login page after creating an account.
+        ///
+        ///    Default: False
+        /// </summary>
+        public bool UserCreated { get; set; }
+
+        /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
@@ -84,7 +92,7 @@ namespace PopNGo.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, bool userCreated = false)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -99,6 +107,7 @@ namespace PopNGo.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+            UserCreated = userCreated;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
