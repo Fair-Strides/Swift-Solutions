@@ -2,7 +2,7 @@
 
 Table User {
   ID int [pk, increment]
-  Username nvarchar(128) [not null]
+  ASPNETUserID int
 }
 
 Table Event {

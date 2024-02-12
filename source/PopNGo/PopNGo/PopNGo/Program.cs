@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PopNGo.Areas.Identity.Data;
 using PopNGo.Data;
 
 namespace PopNGo;
@@ -11,12 +12,20 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(identityConnectionString));
+        var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
+        builder.Services.AddDbContext<ApplicationDbContext>(options => options
+            .UseSqlServer(identityConnectionString)
+            .UseLazyLoadingProxies());
+        
+        var serverConnectionString = builder.Configuration.GetConnectionString("ServerConnection") ?? throw new InvalidOperationException("Connection string 'ServerConnection' not found.");
+        builder.Services.AddDbContext<ApplicationDbContext>(options => options
+            .UseSqlServer(serverConnectionString)
+            .UseLazyLoadingProxies());
+        
+        
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        builder.Services.AddDefaultIdentity<PopNGoUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
 
