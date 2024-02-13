@@ -2,13 +2,11 @@
     ViewData["Title"] = "Explore Page";
 }
 
-<h1 class="container text-light px-5 ">Events in Monmouth</h1>
+<h1 class="container text-light px-5 " id="search-title"></h1>
 <div class="container px-5 text-light" id="eventsContainer"></div>
-<script type="module" src="/js/viewEvents.js"></script>
 
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script type="module" src="~/js/viewEvents.js" asp-append-version="true"></script>
 }
+

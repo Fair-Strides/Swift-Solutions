@@ -1,23 +1,36 @@
-﻿// This JS module provides a function to fetch events from the Real-Time Events Search API
-export function fetchEvents(query = 'Events in Monmouth, Oregon') {
-    const url = `https://real-time-events-search.p.rapidapi.com/search-events?query=${encodeURIComponent(query)}&start=0`;
-    const headers = new Headers({
-        'X-RapidAPI-Key': 'a7cb55faecmsh1fda4c5b95f4499p1ae3efjsn1147db4ac435',
-        'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
-    });
+﻿//Uses plain JavasScript's fetch to get the REST API.
+//Only fetches data and does not manipulate DOM to view data
 
-    return fetch(url, { method: 'GET', headers: headers })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json(); // Parse the JSON of the response
-        })
-        .catch(e => {
-            console.error('Error:', e); // Log any errors
-            throw e; // Rethrow to allow catching by the caller
-        });
+//Data return example:
+//Array(10)[{… }, {… }, {… }, {… }, {… }, {… }, {… }, {… }, {… }, {… }]
+//0: Object { eventName: "Deerhoof", eventDescription: "DEERHOOF \\*MIRACLE-LEVEL TOUR\\*\n\nAFTER 28 YEARS, DEERHOOF RECORDS THEIR STUDIO DEBUT AND IT’S ALL IN JAPANESE", eventStartTime: "2024-02-15T21:45:00", … }
+//eventDescription: "DEERHOOF \\*MIRACLE-LEVEL TOUR\\*\n\nAFTER 28 YEARS, DEERHOOF RECORDS THEIR STUDIO DEBUT AND IT’S ALL IN JAPANESE"
+//eventEndTime: "2024-02-16T03:45:00"
+//eventIsVirtual: true
+//eventLanguage: "en"
+//eventLink: null
+//eventName: "Deerhoof"
+//eventStartTime: "2024-02-15T21:45:00"
+//eventThumbnail: "https://dice-media.imgix.net/attachments/2023-06-05/1ae87a1a-92dd-45e5-bd62-afe41ffad83a.jpg?rect=0%2C0%2C3000%2C3000"
+//full_Address: null
+//latitude: 41.903908
+//longitude: 12.538744
+//phone_Number: "+393515211938"
+
+export async function fetchEventData(query) {
+    try {
+        const response = await fetch(`/api/search/events?q=${query}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
 }
+
 
 
 
