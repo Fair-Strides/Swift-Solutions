@@ -1,4 +1,4 @@
-﻿/*Styles for the welcome page*/
+/*Styles for the welcome page*/
 
 /* Styles for the position */
 .vertical-center {
@@ -91,6 +91,7 @@
     position: relative; 
     overflow: hidden; 
     transition: color 0.3s ease; 
+
     z-index: 1;
 }
 

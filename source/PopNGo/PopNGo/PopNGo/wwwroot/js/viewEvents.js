@@ -1,4 +1,4 @@
-﻿import { fetchEventData } from './eventsAPI.js';
+import { fetchEventData } from './eventsAPI.js';
 
 // Function to display events
 function displayEvents(events) {
