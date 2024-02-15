@@ -1,9 +1,13 @@
-﻿
+﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
         [ProductVersion] nvarchar(32) NOT NULL,
         CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
     );
+END;
+
+BEGIN TRANSACTION;
 
 CREATE TABLE [AspNetRoles] (
     [Id] nvarchar(450) NOT NULL,
@@ -13,12 +17,8 @@ CREATE TABLE [AspNetRoles] (
     CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
 );
 
-
 CREATE TABLE [AspNetUsers] (
     [Id] nvarchar(450) NOT NULL,
-    [FirstName] nvarchar(max) NULL,
-    [LastName] nvarchar(max) NULL,
-    [DOB] datetime2 NOT NULL,
     [UserName] nvarchar(256) NULL,
     [NormalizedUserName] nvarchar(256) NULL,
     [Email] nvarchar(256) NULL,
@@ -80,6 +80,32 @@ CREATE TABLE [AspNetUserTokens] (
     CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
 );
 
+CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims] ([RoleId]);
+
+CREATE UNIQUE INDEX [RoleNameIndex] ON [AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
+
+CREATE INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims] ([UserId]);
+
+CREATE INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins] ([UserId]);
+
+CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [AspNetUserRoles] ([RoleId]);
+
+CREATE INDEX [EmailIndex] ON [AspNetUsers] ([NormalizedEmail]);
+
+CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20230210001950_CustomUserData', N'8.0.1');
+VALUES (N'00000000000000_CreateIdentitySchema', N'8.0.1');
+
+COMMIT;
+
+BEGIN TRANSACTION;
+
+ALTER TABLE [AspNetUsers] ADD [FirstName] nvarchar(max) NULL;
+
+ALTER TABLE [AspNetUsers] ADD [LastName] nvarchar(max) NULL;
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240215200536_CustomNameData', N'8.0.1');
+
+COMMIT;
