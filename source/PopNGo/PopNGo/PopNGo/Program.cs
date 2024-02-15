@@ -5,6 +5,11 @@ using Microsoft.Extensions.Options;
 using PopNGo.Areas.Identity.Data;
 using PopNGo.Data;
 using PopNGo.Models;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PopNGo.Services;
+using Microsoft.OpenApi.Models;
 
 namespace PopNGo;
 
@@ -13,6 +18,20 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        //REST API setup for Real Time Event Search API
+        string realTimeEventSearchApiKey = builder.Configuration["RealTimeEventSearchApiKey"];
+        string realTimeEventSearchUrl = "https://real-time-events-search.p.rapidapi.com/";
+
+        builder.Services.AddHttpClient<IRealTimeEventSearchService, RealTimeEventSearchService>((httpClient, services) =>
+        {
+            httpClient.BaseAddress = new Uri(realTimeEventSearchUrl);
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", realTimeEventSearchApiKey); // Set API key
+            httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Host", "real-time-events-search.p.rapidapi.com");
+            return new RealTimeEventSearchService(httpClient, services.GetRequiredService<ILogger<RealTimeEventSearchService>>());
+        });
+
 
         // Add services to the container.
         // var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
@@ -48,7 +67,15 @@ public class Program
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
         })
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
         builder.Services.AddControllersWithViews();
+
+        // Add Swagger
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+        });
 
         var app = builder.Build();
 
@@ -57,12 +84,20 @@ public class Program
         {
             // app.UseMigrationsEndPoint();
             app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+            });
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+            });
+            app.UseDeveloperExceptionPage();
         }
 
         app.UseHttpsRedirection();

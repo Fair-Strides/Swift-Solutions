@@ -1,6 +1,6 @@
-﻿// Write your JavaScript code.
-import { fetchEvents } from './eventsAPI.js'; // Adjust the path as necessary
+﻿import { fetchEventData } from './eventsAPI.js';
 
+// Function to display events
 function displayEvents(events) {
     const container = document.getElementById('eventsContainer');
     if (!container) {
@@ -9,31 +9,30 @@ function displayEvents(events) {
     }
 
     events.forEach(event => {
+        // Create elements for each event and append them to the container
         const eventEl = document.createElement('div');
         eventEl.classList.add('event');
 
-        // Safely handle potentially undefined or null values using fallbacks
         const name = document.createElement('h2');
-        name.textContent = event.name || 'Event Name Not Available';
+        name.textContent = event.eventName || 'Event Name Not Available';
 
         const dateTime = document.createElement('p');
-        dateTime.textContent = `Start: ${event.start_time || 'Unknown Start Time'}, End: ${event.end_time || 'Unknown End Time'}`;
+        dateTime.textContent = `Start: ${event.eventStartTime || 'Unknown Start Time'}, End: ${event.eventEndTime || 'Unknown End Time'}`;
 
         const location = document.createElement('p');
-        location.textContent = event.venue && event.venue.name ? event.venue.name : 'Venue information not available';
+        location.textContent = event.full_Address || 'Location information not available';
 
         const description = document.createElement('p');
-        description.textContent = event.description || 'No description available.';
+        description.textContent = event.eventDescription || 'No description available.';
 
         const thumbnail = new Image();
-        thumbnail.src = event.thumbnail || 'https://yourdomain.com/path/to/default-thumbnail.png'; // Provide an absolute URL to the default thumbnail
-        thumbnail.alt = event.name || 'Event Thumbnail';
+        thumbnail.src = event.eventThumbnail || 'https://yourdomain.com/path/to/default-thumbnail.png';
+        thumbnail.alt = event.eventName || 'Event Thumbnail';
 
-        // Handle tags if present, else indicate 'No tags available'
         const tags = document.createElement('div');
         tags.classList.add('tags');
-        if (event.tags && event.tags.length > 0) {
-            event.tags.forEach(tag => {
+        if (event.eventTags && event.eventTags.length > 0) {
+            event.eventTags.forEach(tag => {
                 const tagEl = document.createElement('span');
                 tagEl.classList.add('tag');
                 tagEl.textContent = tag;
@@ -46,7 +45,6 @@ function displayEvents(events) {
             tags.appendChild(tagEl);
         }
 
-        // Append all elements to the eventEl container
         eventEl.appendChild(name);
         eventEl.appendChild(dateTime);
         eventEl.appendChild(location);
@@ -54,19 +52,17 @@ function displayEvents(events) {
         eventEl.appendChild(thumbnail);
         eventEl.appendChild(tags);
 
-        // Finally, append the eventEl to the main container
         container.appendChild(eventEl);
     });
 }
 
+// Fetch event data and display it
 document.addEventListener('DOMContentLoaded', function () {
-    fetchEvents().then(data => {
-        displayEvents(data.data); // Assuming the data structure includes an array in data.data
-    }).catch(e => {
-        console.error('Fetching events failed:', e);
-    });
+    if (document.getElementById('eventsContainer')) {
+        fetchEvents().then(data => {
+            displayEvents(data.data); // Assuming the data structure includes an array in data.data
+        }).catch(e => {
+            console.error('Fetching events failed:', e);
+        });
+    }
 });
-
-
-
-

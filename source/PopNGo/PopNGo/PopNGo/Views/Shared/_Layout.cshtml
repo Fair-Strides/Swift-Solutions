@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - PopNGo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/map.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/homeStyles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PopNGo.styles.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +24,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Map" asp-action="Index">Map</a>
+                        </li>
                         @* <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">about</a>
                         </li> *@
@@ -39,8 +46,8 @@
     </div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="~/js/viewEvents.js" asp-append-version="true"></script>
     <script type="module" src="~/js/eventsAPI.js" asp-append-version="true"></script>
+    @* <script type="module" src="~/js/map.js" asp-append-version="true"></script> *@
     <!-- Example of including your JavaScript files as modules -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>

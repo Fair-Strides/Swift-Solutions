@@ -1,0 +1,71 @@
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+#demo-map-id {
+  width: 100vw;
+  height: 75vh;
+  padding: 0;
+  margin: 10px 10px 10px 10px;
+  border-radius: 15px;
+  /* Round edges */
+  transition: width 0.025s linear;
+
+}
+
+#event-info {
+  padding: 0;
+  margin: 10px 10px 10px 10px;
+  border-radius: 15px;
+  /* Round edges */
+  border: 1px solid #ddd;
+  animation: fadeIn 0.25s linear;
+}
+
+#name {
+  text-align: center;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#date {
+  text-align: center;
+  color: white;
+  margin: 10px 10px 10px 10px;
+}
+
+#description {
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+  margin: 10px 10px 10px 10px;
+}
+
+#image {
+  width: 50%;
+  height: auto;
+  margin: 10px auto; /* Top and bottom margins are 10px, left and right margins are auto */
+  border-radius: 15px;
+  display: block; /* This allows the use of margin: auto for centering */
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(255, 255, 255, 0.7); Semi-transparent white */
+
+  background: url('/media/images/gifs/maploadingspinnertransparent.svg') center center no-repeat;
+  background-size: 50%;
+}

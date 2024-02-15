@@ -1,4 +1,4 @@
-﻿/*Styles for the welcome page*/
+/*Styles for the welcome page*/
 
 /* Styles for the position */
 .vertical-center {
@@ -25,7 +25,7 @@
 /*Styles for the button*/ 
 .button-container {
     display: flex;
-    justify-content: start; /* Align button to the start of the flex container */
+    justify-content: start; 
 }
 
 .event-button {
@@ -38,8 +38,8 @@
 }
 
 .image-container img {
-    max-width: 100%; /* This will make the image responsive */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    height: auto; 
 }
 
 /* Media query for xxl screens */
@@ -50,19 +50,14 @@
 }
 
 .push-left {
-    margin-left: -200px; /* Adjusted to -20px as per your last instructions */
-    margin-top: -110px; /* Moves the image up by 40px */
+    margin-left: -200px; 
+    margin-top: -110px;
 }
 
-/*.wp {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}*/
 
 .text-light {
     color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Horizontal offset, vertical offset, blur radius, color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .text-find {
@@ -78,7 +73,6 @@
 }
 
 .event-button {
-    /* Existing styles */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -87,17 +81,17 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-/*Styles and Animation for button a swipe animation */
 .event-button {
-    background-color: #d35400; /* Initial background color */
-    color: white; /* Initial text color */
+    background-color: #d35400; 
+    color: white; 
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
-    position: relative; /* Needed for the absolute positioning of the pseudo-element */
-    overflow: hidden; /* Ensure the pseudo-element does not overflow the button boundaries */
-    transition: color 0.3s ease; /* Transition for text color */
+    position: relative; 
+    overflow: hidden; 
+    transition: color 0.3s ease; 
+
     z-index: 1;
 }
 
@@ -108,18 +102,18 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: white; /* Swipe effect color */
+        background-color: white; 
         z-index: -1;
-        transform: translateX(-100%); /* Start from the left, hidden */
-        transition: transform 0.3s ease; /* Transition for the swipe effect */
+        transform: translateX(-100%); 
+        transition: transform 0.3s ease; 
     }
 
     .event-button:hover::after {
-        transform: translateX(0); /* End position - fully visible */
+        transform: translateX(0); 
     }
 
     .event-button:hover {
-        color: #d35400; /* Text color change on hover */
+        color: #d35400; 
     }
 
 .event {
