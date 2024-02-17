@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PopNGo.Areas.Identity.Data;
+using PopNGo.Models;
 
 namespace PopNGo.Areas.Identity.Pages.Account
 {
@@ -30,13 +31,15 @@ namespace PopNGo.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<PopNGoUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly PopNGoDB _popNGoDBContext;
 
         public RegisterModel(
             UserManager<PopNGoUser> userManager,
             IUserStore<PopNGoUser> userStore,
             SignInManager<PopNGoUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            PopNGoDB popNGoDBContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace PopNGo.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _popNGoDBContext = popNGoDBContext;
         }
 
         /// <summary>
@@ -150,6 +154,13 @@ namespace PopNGo.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    PgUser newUser = new()
+                    {
+                        AspnetuserId = user.Id
+                    };
+                    _popNGoDBContext.PgUsers.Add(newUser);
+                    await _popNGoDBContext.SaveChangesAsync();
+
                     // var userId = await _userManager.GetUserIdAsync(user);
                     // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -161,6 +172,7 @@ namespace PopNGo.Areas.Identity.Pages.Account
 
                     // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                     //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
