@@ -61,7 +61,6 @@ public class Program
             .UseLazyLoadingProxies());
         builder.Services.AddScoped<DbContext,PopNGoDB>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
         
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
