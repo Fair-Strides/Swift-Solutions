@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PopNGo.Services;
 using Microsoft.OpenApi.Models;
+using PopNGo.DAL.Abstract;
+using PopNGo.DAL.Concrete;
 
 namespace PopNGo;
 
@@ -57,7 +59,9 @@ public class Program
         builder.Services.AddDbContext<PopNGoDB>(options => options
             .UseSqlServer(serverConnectionString)
             .UseLazyLoadingProxies());
-        
+        builder.Services.AddScoped<DbContext,PopNGoDB>();
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
         
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
