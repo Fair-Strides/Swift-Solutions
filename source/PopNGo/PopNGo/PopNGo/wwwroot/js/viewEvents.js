@@ -1,4 +1,4 @@
-﻿import { fetchEventData } from './eventsAPI.js';
+import { fetchEventData } from './eventsAPI.js';
 
 // Function to display events
 function displayEvents(events) {
@@ -65,4 +65,22 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Fetching events failed:', e);
         });
     }
+    const query = 'Events in Monmouth, Oregon'; // Modify the query as needed
+    const searchTitle = document.getElementById('search-title');
+
+    // Check if the search-title element exists
+    if (searchTitle) {
+        searchTitle.textContent = query;
+    } else {
+        console.error('Element #search-title not found.');
+    }
+
+    fetchEventData(query)
+        .then(data => {
+            console.log('Event data:', data);
+            displayEvents(data); 
+        })
+        .catch(error => {
+            console.error('Error fetching event data:', error);
+        });
 });

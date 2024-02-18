@@ -87,6 +87,7 @@ public class Program
         {
             // app.UseMigrationsEndPoint();
             app.UseDeveloperExceptionPage();
+            app.UseMigrationsEndPoint();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

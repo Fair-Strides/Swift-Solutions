@@ -1,4 +1,5 @@
-﻿//Uses plain JavasScript's fetch to get the REST API.
+//Uses plain JavasScript's fetch to get the REST API.
+
 //Only fetches data and does not manipulate DOM to view data
 
 //Data return example:
