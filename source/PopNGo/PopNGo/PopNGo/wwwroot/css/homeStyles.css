@@ -145,7 +145,10 @@ input[type="password"],
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
-input:-internal-autofill-selected {
+input:-internal-autofill,
+input:-internal-autofill-selected,
+input:-webkit-autofill,
+input:-webkit-autofill-selected {
     background-color: #ff9b58 !important;
     color: #d35400 !important;
     border-color: #ffab74;
@@ -154,6 +157,8 @@ input:-internal-autofill-selected {
 
 #register-submit,
 #login-submit,
+#forgot-password-submit,
+#resend-email-submit,
 #change-email-button,
 #update-profile-button,
 #change-password-button,
