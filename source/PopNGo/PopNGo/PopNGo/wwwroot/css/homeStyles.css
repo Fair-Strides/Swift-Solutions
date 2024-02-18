@@ -144,11 +144,12 @@ input[type="email"],
 input[type="password"],
 input[type="text"]:focus,
 input[type="email"]:focus,
-input[type="password"]:focus,
-input:-internal-autofill,
+input[type="password"]:focus
+/* input:-internal-autofill,
 input:-internal-autofill-selected,
 input:-webkit-autofill,
-input:-webkit-autofill-selected {
+input:-webkit-autofill-selected { */
+{
     background-color: #ff9b58 !important;
     color: #d35400 !important;
     border-color: #ffab74;
