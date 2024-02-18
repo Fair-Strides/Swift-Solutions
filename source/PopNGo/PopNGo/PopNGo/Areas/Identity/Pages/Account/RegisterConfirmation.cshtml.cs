@@ -45,6 +45,14 @@ namespace PopNGo.Areas.Identity.Pages.Account
         /// </summary>
         public string EmailConfirmationUrl { get; set; }
 
+        /// <summary>
+        ///    This property is used to display a confirmation message when the user is redirected
+        ///    to the login page after creating an account.
+        ///
+        ///    Default: False
+        /// </summary>
+        public bool UserCreated { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
             if (email == null)

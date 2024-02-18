@@ -51,8 +51,12 @@ namespace PopNGo.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public void OnGet()
+        public void OnGet(string email)
         {
+            Input = new InputModel
+            {
+                Email = email
+            };
         }
 
         public async Task<IActionResult> OnPostAsync()
