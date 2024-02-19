@@ -62,7 +62,9 @@ public class Program
             .UseLazyLoadingProxies());
         builder.Services.AddScoped<DbContext,PopNGoDB>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        
+        builder.Services.AddScoped<IEventHistoryRepository, EventHistoryRepository>();
+        builder.Services.AddScoped<IPgUserRepository, PgUserRepository>();
+
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<PopNGoUser>(options =>

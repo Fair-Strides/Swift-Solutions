@@ -15,6 +15,8 @@ public partial class PopNGoDB : DbContext
     {
     }
 
+    public virtual DbSet<EventHistory> EventHistories { get; set; }
+
     public virtual DbSet<PgUser> PgUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,17 +24,18 @@ public partial class PopNGoDB : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<EventHistory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC276B4E55AD");
+
+            entity.HasOne(d => d.User).WithMany(p => p.EventHistories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EventHistory_UserID");
+        });
+
         modelBuilder.Entity<PgUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC27871A0EF0");
-
-            entity.ToTable("PG_User");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.AspnetuserId)
-                .IsRequired()
-                .HasMaxLength(255)
-                .HasColumnName("ASPNETUserID");
+            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC2706D01FC9");
         });
 
         OnModelCreatingPartial(modelBuilder);
