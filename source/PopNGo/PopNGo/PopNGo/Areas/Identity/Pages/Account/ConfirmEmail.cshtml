@@ -1,0 +1,12 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<h1 class="text-light">@ViewData["Title"]</h1>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+@if(Model.StatusMessage == "Error confirming your email.") {
+    <p class="text-light">If you have not received the email, please check your spam folder.</p>
+    <p class="text-light">If you need a new confirmation email, please <a class="text-swipe" asp-page="./ResendEmailConfirmation">click here</a>.</p>
+}

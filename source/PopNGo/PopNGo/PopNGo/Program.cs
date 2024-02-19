@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -66,11 +67,17 @@ public class Program
 
         builder.Services.AddDefaultIdentity<PopNGoUser>(options =>
         {
-            options.SignIn.RequireConfirmedAccount = false;
+            options.SignIn.RequireConfirmedAccount = true;
+            options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
+                new TokenProviderDescriptor(
+                typeof(CustomEmailConfirmationTokenProvider<PopNGoUser>)));
+            options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
         })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<PopNGoUser>>();
+        builder.Services.AddTransient<IEmailSender, EmailSender>();
 
         builder.Services.AddControllersWithViews();
 

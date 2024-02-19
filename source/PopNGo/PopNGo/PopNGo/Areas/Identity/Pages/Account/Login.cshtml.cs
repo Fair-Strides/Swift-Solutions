@@ -135,6 +135,11 @@ namespace PopNGo.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError(string.Empty, "You have not confirmed your email. Please check your email for a confirmation link.");
+                    return Page();
+                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

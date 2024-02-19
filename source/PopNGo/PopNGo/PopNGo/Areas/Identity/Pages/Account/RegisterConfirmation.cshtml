@@ -1,0 +1,24 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+}
+
+<h1 class="text-light">@ViewData["Title"]</h1>
+@{
+    @if(Model.UserCreated) {
+        <div class="col-md-8 offset-md-2">
+            <div class="alert alert-success" role="alert">
+                User account created successfully.
+            </div>
+        </div>
+    }
+<p class="text-light">
+        Please check your email to confirm your account.
+</p>
+
+<p class="text-light">
+    Didn't get it yet? <a class="text-swipe" asp-page="./ResendEmailConfirmation" asp-route-email="@Model.Email">Resend confirmation email</a>
+</p>
+}
+
