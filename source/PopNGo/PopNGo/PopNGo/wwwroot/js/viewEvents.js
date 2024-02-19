@@ -59,7 +59,7 @@ function displayEvents(events) {
 // Fetch event data and display it
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('eventsContainer')) {
-        fetchEvents().then(data => {
+        fetchEventData().then(data => {
             displayEvents(data.data); // Assuming the data structure includes an array in data.data
         }).catch(e => {
             console.error('Fetching events failed:', e);
