@@ -109,3 +109,12 @@ INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20240215200536_CustomNameData', N'8.0.1');
 
 COMMIT;
+
+BEGIN TRANSACTION;
+
+ALTER TABLE [AspNetUsers] ADD [NotificationEmail] nvarchar(max) NULL;
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240222131500_NotificationEmailData', N'8.0.1');
+
+COMMIT;
