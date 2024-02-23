@@ -31,10 +31,10 @@ public class EventApiController : Controller
 
     // GET: api/eventHistory
     [HttpGet("eventHistory")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Models.DTO.EventHistory>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Models.DTO.Event>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public ActionResult<IEnumerable<Models.DTO.EventHistory>> GetUserEventHistory()
+    public ActionResult<IEnumerable<Models.DTO.Event>> GetUserEventHistory()
     {
         PopNGoUser user = _userManager.GetUserAsync(User).Result;
         if (user == null)
@@ -48,7 +48,7 @@ public class EventApiController : Controller
             return Unauthorized();
         }
 
-        List<Models.DTO.EventHistory> events = _eventHistoryRepository.GetEventHistory(pgUser.Id);
+        List<Models.DTO.Event> events = _eventHistoryRepository.GetEventHistory(pgUser.Id);
         if (events == null || events.Count == 0)
         {
             return NotFound();

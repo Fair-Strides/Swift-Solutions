@@ -13,9 +13,9 @@ namespace PopNGo.DAL.Concrete
             _eventHistories = context.EventHistories;
         }
 
-        public List<PopNGo.Models.DTO.EventHistory> GetEventHistory(int userId)
+        public List<PopNGo.Models.DTO.Event> GetEventHistory(int userId)
         {
-            return _eventHistories.Where(eh => eh.UserId == userId).Select(eh => eh.ToDTO()).ToList();
+            return _eventHistories.Where(eh => eh.UserId == userId).Select(eh => eh.Event.ToDTO()).ToList();
         }
     }
 }

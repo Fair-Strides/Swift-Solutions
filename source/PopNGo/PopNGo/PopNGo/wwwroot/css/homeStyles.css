@@ -163,7 +163,8 @@ input:-webkit-autofill-selected { */
 #change-email-button,
 #update-profile-button,
 #change-password-button,
-#download-personal-data-button {
+#download-personal-data-button,
+#update-notifications-button {
     color: #ff9b58;
     background-color: #d35400;
     border-color: #ffab74;

@@ -16,27 +16,15 @@ public partial class EventHistory
     [Column("UserID")]
     public int UserId { get; set; }
 
-    [Column("EventName")]
-    public string EventName { get; set; }
+    [Column("EventID")]
+    public int EventId { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime ViewedDate { get; set; }
 
-    [Required]
-    [Column("EventID")]
-    [StringLength(255)]
-    public string EventId { get; set; }
-
-    [Column(TypeName = "datetime")]
-    public DateTime EventDate { get; set; }
-
-    [Required]
-    [StringLength(255)]
-    public string EventDescription { get; set; }
-
-    [Required]
-    [StringLength(255)]
-    public string EventLocation { get; set; }
+    [ForeignKey("EventId")]
+    [InverseProperty("EventHistories")]
+    public virtual Event Event { get; set; }
 
     [ForeignKey("UserId")]
     [InverseProperty("EventHistories")]
