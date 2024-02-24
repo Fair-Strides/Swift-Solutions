@@ -6,6 +6,6 @@ namespace PopNGo.DAL.Abstract
     {
         public Task<Tag> FindByName(string name);
 
-        public Tag CreateNew(string name);
+        public Task<Tag> CreateNew(string name);
     }
 }

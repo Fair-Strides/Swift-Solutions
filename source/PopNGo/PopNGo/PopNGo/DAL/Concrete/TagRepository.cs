@@ -19,14 +19,14 @@ namespace PopNGo.DAL.Concrete
             return await _tags.Where(u => u.Name == name).FirstOrDefaultAsync();
         }
 
-        public Tag CreateNew(string name)
+        public async Task<Tag> CreateNew(string name)
         {
             Tag tag = new()
             {
                 Name = name
             };
-            _tags.Add(tag);
-            _context.SaveChanges();
+            await _tags.AddAsync(tag);
+            await _context.SaveChangesAsync();
             return tag;
         }
     }

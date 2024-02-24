@@ -128,7 +128,8 @@ namespace PopNGo.Services
                     Full_Address = data.venue.full_address,
                     Longitude = data.venue.longitude,
                     Latitude = data.venue.latitude,
-                    Phone_Number = data.venue.phone_number
+                    Phone_Number = data.venue.phone_number,
+                    EventTags = data.tags
 
                 });
             }

@@ -1,14 +1,34 @@
-﻿import { fetchEventData } from './eventsAPI.js';
+﻿import { fetchEventData, createTags, fetchTagId } from './eventsAPI.js';
+
+async function processArray(array, asyncFunction) {
+    // map array to promises
+    const promises = array.map(asyncFunction);
+    // wait until all promises resolve
+    await Promise.all(promises);
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 // Function to display events
-function displayEvents(events) {
+async function displayEvents(events) {
     const container = document.getElementById('eventsContainer');
     if (!container) {
         console.error('Container element #eventsContainer not found.');
         return;
     }
 
-    events.forEach(event => {
+    let tagList = new Set();
+    events?.forEach(event => {
+        event.eventTags?.forEach(tag => {
+            tag = capitalize(tag).replace(/-|_/g, ' ');
+            tagList.add(tag);
+        });
+    });
+    await createTags(Array.from(tagList));
+
+    processArray(events, async event => {
         // Create elements for each event and append them to the container
         const eventEl = document.createElement('div');
         eventEl.classList.add('event');
@@ -31,12 +51,29 @@ function displayEvents(events) {
 
         const tags = document.createElement('div');
         tags.classList.add('tags');
+
         if (event.eventTags && event.eventTags.length > 0) {
-            event.eventTags.forEach(tag => {
+            processArray(event.eventTags, async (tag) => {
+                tag = capitalize(tag).replace(/-|_/g, ' ');
+
                 const tagEl = document.createElement('span');
                 tagEl.classList.add('tag');
+
+                let tagIndex = await fetchTagId(tag) || null;
+                if(tagIndex !== null)
+                    tagEl.classList.add(`tag-${tagIndex}`);
+
                 tagEl.textContent = tag;
                 tags.appendChild(tagEl);
+            }).then(() => {
+                // Grab the children we just made
+                let children = Array.prototype.slice.call(tags.children);
+
+                // Sort the children elements
+                children.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+                // Append each child back to tags
+                children.forEach(child => tags.appendChild(child));
             });
         } else {
             const tagEl = document.createElement('span');

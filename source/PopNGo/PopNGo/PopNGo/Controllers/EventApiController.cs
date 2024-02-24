@@ -71,9 +71,24 @@ public class EventApiController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<int>> TagExists(string tag)
     {
+        Console.WriteLine("TagExists: " + tag);
         Tag foundTag = await _tagRepository.FindByName(tag);
-        foundTag ??= _tagRepository.CreateNew(tag);
+        foundTag ??= (await _tagRepository.CreateNew(tag));
 
         return foundTag.Id;
+    }
+
+    [HttpPost("tags/create")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<bool>> CreateTags([FromBody] string[] tags)
+    {
+        foreach (string tag in tags)
+        {
+            Tag foundTag = await _tagRepository.FindByName(tag);
+            foundTag ??= (await _tagRepository.CreateNew(tag));
+        }
+
+        return true;
     }
 }

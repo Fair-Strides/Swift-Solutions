@@ -76,10 +76,10 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .event-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+.event-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
 .event-button {
     background-color: #d35400; 
@@ -95,26 +95,26 @@
     z-index: 1;
 }
 
-    .event-button::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: white; 
-        z-index: -1;
-        transform: translateX(-100%); 
-        transition: transform 0.3s ease; 
-    }
+.event-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white; 
+    z-index: -1;
+    transform: translateX(-100%); 
+    transition: transform 0.3s ease; 
+}
 
-    .event-button:hover::after {
-        transform: translateX(0); 
-    }
+.event-button:hover::after {
+    transform: translateX(0); 
+}
 
-    .event-button:hover {
-        color: #d35400; 
-    }
+.event-button:hover {
+    color: #d35400; 
+}
 
 .event {
     border: 1px solid #ddd;
@@ -122,21 +122,9 @@
     padding: 10px;
 }
 
-    .event img {
-        max-width: 100px;
-        height: auto;
-    }
-
-.tags {
-    margin-top: 10px;
-}
-
-.tag {
-    display: inline-block;
-    background-color: #eee;
-    padding: 2px 5px;
-    margin-right: 5px;
-    border-radius: 5px;
+.event img {
+    max-width: 100px;
+    height: auto;
 }
 
 input[type="text"],
@@ -178,4 +166,68 @@ input:-webkit-autofill-selected { */
 .nav-link.active.text-swipe {
     background-color: #d35400;
     font-weight: normal;
+}
+
+/* Tag stylings, to be expanded as-needed */
+
+.tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #eee;
+    padding: 2px 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.tag-1 {
+    background-color: #d35400;
+    color: white;
+}
+
+.tag-2 {
+    background-color: #3498db;
+    color: white;
+}
+
+.tag-3 {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.tag-4 {
+    background-color: #f1c40f;
+    color: white;
+}
+
+.tag-5 {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.tag-6 {
+    background-color: #9b59b6;
+    color: white;
+}
+
+.tag-7 {
+    background-color: #34495e;
+    color: white;
+}
+
+.tag-8 {
+    background-color: #16a085;
+    color: white;
+}
+
+.tag-9 {
+    background-color: #27ae60;
+    color: white;
+}
+
+.tag-10 {
+    background-color: #f39c12;
+    color: white;
 }
