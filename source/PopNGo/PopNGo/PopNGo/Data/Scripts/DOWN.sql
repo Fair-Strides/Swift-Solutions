@@ -5,6 +5,8 @@ ALTER TABLE [EventHistory] DROP CONSTRAINT FK_EventHistory_EventID;
 
 DROP TABLE [PG_User];
 
+DROP TABLE [TAG];
+
 DROP TABLE [EventHistory];
 
 DROP TABLE [Event];

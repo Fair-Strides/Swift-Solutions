@@ -21,6 +21,8 @@ public partial class PopNGoDB : DbContext
 
     public virtual DbSet<PgUser> PgUsers { get; set; }
 
+    public virtual DbSet<Tag> Tags { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ServerConnection");
 
@@ -28,12 +30,12 @@ public partial class PopNGoDB : DbContext
     {
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC27F29D4082");
+            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC27684B11A4");
         });
 
         modelBuilder.Entity<EventHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC278D45E61E");
+            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC27E9D2DDC7");
 
             entity.HasOne(d => d.Event).WithMany(p => p.EventHistories)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -46,7 +48,12 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<PgUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC271C4377B6");
+            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC27C4A0738E");
+        });
+
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Tag__3214EC277EB80D48");
         });
 
         OnModelCreatingPartial(modelBuilder);

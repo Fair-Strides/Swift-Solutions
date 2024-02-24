@@ -18,14 +18,23 @@ public class EventApiController : Controller
     private readonly IEventHistoryRepository _eventHistoryRepository;
     private readonly IPgUserRepository _pgUserRepository;
     private readonly UserManager<PopNGoUser> _userManager;
+    private readonly ITagRepository _tagRepository;
 
-    public EventApiController(IEventHistoryRepository eventHistoryRepository, IPgUserRepository pgUserRepository, UserManager<PopNGoUser> userManager, ILogger<EventApiController> logger, IConfiguration configuration)
+    public EventApiController(
+        IEventHistoryRepository eventHistoryRepository,
+        IPgUserRepository pgUserRepository,
+        UserManager<PopNGoUser> userManager,
+        ILogger<EventApiController> logger,
+        IConfiguration configuration,
+        ITagRepository tagRepository
+    )
     {
         _logger = logger;
         _configuration = configuration;
         _eventHistoryRepository = eventHistoryRepository;
         _pgUserRepository = pgUserRepository;
         _userManager = userManager;
+        _tagRepository = tagRepository;
 
     }
 
@@ -55,5 +64,16 @@ public class EventApiController : Controller
         }
 
         return events;
+    }
+
+    [HttpGet("tags/name={tag}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<int>> TagExists(string tag)
+    {
+        Tag foundTag = await _tagRepository.FindByName(tag);
+        foundTag ??= _tagRepository.CreateNew(tag);
+
+        return foundTag.Id;
     }
 }
