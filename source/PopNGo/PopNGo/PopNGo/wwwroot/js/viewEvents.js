@@ -1,10 +1,18 @@
-﻿import { fetchEventData } from './eventsAPI.js';
+﻿import { fetchEventData, searchForEvents } from './eventsAPI.js';
 
 // Function to display events
 function displayEvents(events) {
+    document.getElementById('searching-events-section')?.classList.toggle('hidden', true); // Hide the searching events section
+
     const container = document.getElementById('eventsContainer');
     if (!container) {
         console.error('Container element #eventsContainer not found.');
+        return;
+    } else
+        container.innerHTML = ''; // Clear the container
+
+    if (!events || events.length === 0) {
+        document.getElementById('no-events-section')?.classList.toggle('hidden', false); // Show the no events section
         return;
     }
 
@@ -58,11 +66,17 @@ function displayEvents(events) {
 
 // Fetch event data and display it
 document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Hide the no events section
+    document.getElementById('searching-events-section')?.classList.toggle('hidden', true); // Hide the searching events section
+
     if (document.getElementById('eventsContainer')) {
-        fetchEventData("Events in Monmouth, Oregon").then(data => {
-            displayEvents(data); // Assuming the data structure includes an array in data.data
-        }).catch(e => {
-            console.error('Fetching events failed:', e);
-        });
+        searchForEvents("Events in Monmouth, Oregon", displayEvents);
     }
+
+    document.getElementById('search-event-button').addEventListener('click', searchForEvents(null, displayEvents));
+
+    document.getElementById('search-event-input').addEventListener('keyup', function (event) {
+        if (event.key === 'Enter')
+            searchForEvents(null, displayEvents);
+    });
 });
