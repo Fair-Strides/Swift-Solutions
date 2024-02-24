@@ -156,6 +156,11 @@ input:-webkit-autofill-selected { */
     border-radius: 10px;
 }
 
+input::placeholder,
+.form-control::placeholder {
+    color: #cd6636;
+}
+
 #register-submit,
 #login-submit,
 #forgot-password-submit,
@@ -178,4 +183,15 @@ input:-webkit-autofill-selected { */
 .nav-link.active.text-swipe {
     background-color: #d35400;
     font-weight: normal;
+}
+
+.bg-orange {
+    background-color: #d35400;
+}
+.notification {
+    margin: 0.5rem 0.5rem;
+}
+
+.hidden {
+    display: none;
 }
