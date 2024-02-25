@@ -10,6 +10,7 @@ namespace PopNGo.Models
 {
     public class EventDetail
     {
+        public string EventID { get; set; }
         public string EventName { get; set; }
         public string EventLink { get; set; }
         public string EventDescription { get; set; }

@@ -117,6 +117,7 @@ namespace PopNGo.Services
                 return allEventDetail.data
                 .Select(data => new EventDetail
                 {
+                    EventID = data.event_id,
                     EventName = data.name.ToString(),
                     EventLink = data.link,
                     EventDescription = data.description,

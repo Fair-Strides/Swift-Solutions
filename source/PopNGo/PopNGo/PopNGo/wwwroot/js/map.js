@@ -1,11 +1,12 @@
-import { fetchEventData, searchForEvents } from './eventsAPI.js';
+import { searchForEvents } from './eventsAPI.js';
+import { formatStartTime } from './Helper-Functions/formatStartTime.js';
 
 // Function to create the map and display events
 window.initMap = async function (events) {
     document.getElementById('searching-events-section')?.classList.toggle('hidden', true); // Hide the searching events section
 
     if (!events || events.length === 0) {
-        document.getElementById('noevents-section')?.classList.toggle('hidden', false); // Show the no events section
+        document.getElementById('no-events-section')?.classList.toggle('hidden', false); // Show the no events section
         return;
     } else
         document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Show the no events section
@@ -84,11 +85,6 @@ window.initMap = async function (events) {
             }
         });
     });
-}
-
-function formatStartTime(dateString) {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
 async function loadMapScript() {

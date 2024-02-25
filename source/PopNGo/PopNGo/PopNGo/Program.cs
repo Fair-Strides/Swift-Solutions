@@ -64,6 +64,8 @@ public class Program
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IEventHistoryRepository, EventHistoryRepository>();
         builder.Services.AddScoped<IPgUserRepository, PgUserRepository>();
+        builder.Services.AddScoped<IFavoritesRepository, FavoritesRepository>();
+        builder.Services.AddScoped<IEventRepository, EventRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

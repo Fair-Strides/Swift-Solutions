@@ -28,11 +28,17 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">About</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="WelcomePage">Welcome</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Map" asp-action="Index">Map</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">about</a>
-                        </li> *@
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ExplorePage">Explore</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Favorites" asp-action="Index">Favorites</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -47,6 +53,8 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="~/js/eventsAPI.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/Helper-Functions/showUnauthorizedLoginModal.js"></script>
+    <script type="module" src="~/js/Helper-Functions/formatStartTime.js"></script>
     @* <script type="module" src="~/js/map.js" asp-append-version="true"></script> *@
     <!-- Example of including your JavaScript files as modules -->
     @await RenderSectionAsync("Scripts", required: false)
