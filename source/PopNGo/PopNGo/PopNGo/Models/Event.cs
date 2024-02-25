@@ -14,9 +14,9 @@ public partial class Event
     public int Id { get; set; }
 
     [Required]
-    [Column("EventID")]
+    [Column("ApiEventID")]
     [StringLength(255)]
-    public string EventId { get; set; }
+    public string ApiEventId { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime EventDate { get; set; }
@@ -35,4 +35,7 @@ public partial class Event
 
     [InverseProperty("Event")]
     public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
+
+    [InverseProperty("Event")]
+    public virtual ICollection<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
 }

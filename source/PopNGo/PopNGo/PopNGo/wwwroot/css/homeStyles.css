@@ -144,6 +144,11 @@ input:-webkit-autofill-selected { */
     border-radius: 10px;
 }
 
+input::placeholder,
+.form-control::placeholder {
+    color: #cd6636;
+}
+
 #register-submit,
 #login-submit,
 #forgot-password-submit,
@@ -168,8 +173,18 @@ input:-webkit-autofill-selected { */
     font-weight: normal;
 }
 
-/* Tag stylings, to be expanded as-needed */
+.bg-orange {
+    background-color: #d35400;
+}
+.notification {
+    margin: 0.5rem 0.5rem;
+}
 
+.hidden {
+    display: none;
+}
+
+/* Tag stylings, to be expanded as-needed */
 .tags {
     margin-top: 10px;
 }

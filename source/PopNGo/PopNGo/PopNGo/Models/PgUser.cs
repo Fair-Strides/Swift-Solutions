@@ -20,4 +20,7 @@ public partial class PgUser
 
     [InverseProperty("User")]
     public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
 }

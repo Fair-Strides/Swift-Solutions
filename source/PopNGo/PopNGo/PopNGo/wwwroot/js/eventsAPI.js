@@ -31,6 +31,7 @@ export async function fetchEventData(query) {
     }
 }
 
+<<<<<<< HEAD
 export async function fetchTagId(tag) {
     try {
         const response = await fetch(`/api/tags/name=${tag}`);
@@ -62,5 +63,18 @@ export async function createTags(tagList) {
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         throw error;
+=======
+export async function searchForEvents(query, callback) {
+    const searchQuery = query ?? document.getElementById('search-event-input').value;
+    document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Hide the no events section
+    document.getElementById('searching-events-section')?.classList.toggle('hidden', false); // Show the searching events section
+
+    if (searchQuery) {
+        fetchEventData(searchQuery).then(data => {
+            callback(data); // Assuming the data structure includes an array in data.data
+        }).catch(e => {
+            console.error('Fetching events failed:', e);
+        });
+>>>>>>> dev
     }
 }
