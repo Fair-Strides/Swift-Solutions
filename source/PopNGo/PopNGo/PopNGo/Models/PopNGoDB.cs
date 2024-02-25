@@ -32,12 +32,12 @@ public partial class PopNGoDB : DbContext
     {
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC273007EFA2");
+            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC277A98E223");
         });
 
         modelBuilder.Entity<EventHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC271E547DA9");
+            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC27289E27AC");
 
             entity.HasOne(d => d.Event).WithMany(p => p.EventHistories)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -50,7 +50,7 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<FavoriteEvent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC270ECD16A0");
+            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC2783B45A94");
 
             entity.HasOne(d => d.Event).WithMany(p => p.FavoriteEvents)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -63,12 +63,12 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<PgUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC27C4A0738E");
+            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC2782423C1E");
         });
 
         modelBuilder.Entity<Tag>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tag__3214EC277EB80D48");
+            entity.HasKey(e => e.Id).HasName("PK__Tag__3214EC274D8A2343");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -26,7 +26,7 @@ public partial class Event
     public string EventName { get; set; }
 
     [Required]
-    [StringLength(255)]
+    [StringLength(1000)]
     public string EventDescription { get; set; }
 
     [Required]
