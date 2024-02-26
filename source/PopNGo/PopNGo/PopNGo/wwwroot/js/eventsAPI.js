@@ -31,6 +31,40 @@ export async function fetchEventData(query) {
     }
 }
 
+export async function fetchTagId(tag) {
+    try {
+        const response = await fetch(`/api/tags/name=${tag}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
+}
+
+export async function createTags(tagList) {
+    if(tagList.length === 0) return;
+
+    try {
+        const response = await fetch(`/api/tags/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tagList)
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
+}
+
 export async function searchForEvents(query, callback) {
     const searchQuery = query ?? document.getElementById('search-event-input').value;
     document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Hide the no events section
