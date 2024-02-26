@@ -1,16 +1,5 @@
-﻿import { searchForEvents, createTags, fetchTagId } from './eventsAPI.js';
+﻿import { searchForEvents, createTags, processArray, formatTags } from './eventsAPI.js';
 import { showLoginSignupModal } from './Helper-Functions/showUnauthorizedLoginModal.js';
-
-async function processArray(array, asyncFunction) {
-    // map array to promises
-    const promises = array.map(asyncFunction);
-    // wait until all promises resolve
-    await Promise.all(promises);
-}
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 // Function to display events
 async function displayEvents(events) {
@@ -28,14 +17,7 @@ async function displayEvents(events) {
         return;
     }
 
-    let tagList = new Set();
-    events?.forEach(event => {
-        event.eventTags?.forEach(tag => {
-            tag = capitalize(tag).replace(/-|_/g, ' ');
-            tagList.add(tag);
-        });
-    });
-    await createTags(Array.from(tagList));
+    await createTags(events);
 
     processArray(events, async event => {
         // Create elements for each event and append them to the container
@@ -133,28 +115,7 @@ async function displayEvents(events) {
         tags.classList.add('tags');
 
         if (event.eventTags && event.eventTags.length > 0) {
-            processArray(event.eventTags, async (tag) => {
-                tag = capitalize(tag).replace(/-|_/g, ' ');
-
-                const tagEl = document.createElement('span');
-                tagEl.classList.add('tag');
-
-                let tagIndex = await fetchTagId(tag) || null;
-                if(tagIndex !== null)
-                    tagEl.classList.add(`tag-${tagIndex}`);
-
-                tagEl.textContent = tag;
-                tags.appendChild(tagEl);
-            }).then(() => {
-                // Grab the children we just made
-                let children = Array.prototype.slice.call(tags.children);
-
-                // Sort the children elements
-                children.sort((a, b) => a.textContent.localeCompare(b.textContent));
-
-                // Append each child back to tags
-                children.forEach(child => tags.appendChild(child));
-            });
+            await formatTags(event, tags);
         } else {
             const tagEl = document.createElement('span');
             tagEl.classList.add('tag');

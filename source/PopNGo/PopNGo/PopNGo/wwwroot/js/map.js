@@ -1,4 +1,4 @@
-import { searchForEvents } from './eventsAPI.js';
+import { searchForEvents, createTags, formatTags } from './eventsAPI.js';
 import { formatStartTime } from './Helper-Functions/formatStartTime.js';
 
 // Function to create the map and display events
@@ -25,6 +25,8 @@ window.initMap = async function (events) {
     let selectedEvent = null;
 
     document.getElementById('demo-map-id').removeChild(loadingOverlay);
+    
+    await createTags(events);
     events.forEach(event => {
         //console.log(event);
 
@@ -39,7 +41,7 @@ window.initMap = async function (events) {
             title: event.eventName
         });
 
-        marker.addListener('click', function () {
+        marker.addListener('click', async function () {
             var mapDiv = document.getElementById('demo-map-id');
             var eventInfoDiv = document.getElementById('event-info');
 
@@ -58,6 +60,18 @@ window.initMap = async function (events) {
                 var descriptionElement = document.getElementById('description');
                 var dateElement = document.getElementById('date');
                 var imageElement = document.getElementById('image');
+                var tagsElement = document.getElementById('tags');
+                tagsElement.innerHTML = '';
+
+                // Populate the event info div with the tags
+                if (event.eventTags && event.eventTags.length > 0) {
+                    await formatTags(event, tagsElement);
+                } else {
+                    const tagEl = document.createElement('span');
+                    tagEl.classList.add('tag');
+                    tagEl.textContent = "No tags available";
+                    tagsElement.appendChild(tagEl);
+                }
 
                 nameElement.textContent = event.eventName;
                 descriptionElement.textContent = event.eventDescription;
