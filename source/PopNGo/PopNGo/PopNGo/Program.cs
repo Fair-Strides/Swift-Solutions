@@ -13,6 +13,7 @@ using PopNGo.Services;
 using Microsoft.OpenApi.Models;
 using PopNGo.DAL.Abstract;
 using PopNGo.DAL.Concrete;
+using Microsoft.Extensions.Hosting;
 
 namespace PopNGo;
 
@@ -83,6 +84,7 @@ public class Program
 
         builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<PopNGoUser>>();
         builder.Services.AddTransient<IEmailSender, EmailSender>();
+        builder.Services.AddHostedService<TimedEmailService>();
 
         builder.Services.AddControllersWithViews();
 
