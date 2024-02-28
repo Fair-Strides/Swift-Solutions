@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using PopNGo.Areas.Identity.Data;
 // using PopNGo.Models.DTO;
 // using PopNGo.ExtensionMethods;
+using PopNGo.Models.DTO;
+using PopNGo.ExtensionMethods;
 
 namespace PopNGo.Controllers;
 [ApiController]
@@ -67,15 +69,14 @@ public class EventApiController : Controller
     }
 
     [HttpGet("tags/name={tag}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Models.DTO.Tag))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<int>> TagExists(string tag)
+    public async Task<ActionResult<Models.DTO.Tag>> TagExists(string tag)
     {
-        Console.WriteLine("TagExists: " + tag);
-        Tag foundTag = await _tagRepository.FindByName(tag);
+        Models.Tag foundTag = await _tagRepository.FindByName(tag);
         foundTag ??= (await _tagRepository.CreateNew(tag));
 
-        return foundTag.Id;
+        return foundTag.ToDTO();
     }
 
     [HttpPost("tags/create")]
@@ -85,8 +86,16 @@ public class EventApiController : Controller
     {
         foreach (string tag in tags)
         {
-            Tag foundTag = await _tagRepository.FindByName(tag);
-            foundTag ??= (await _tagRepository.CreateNew(tag));
+            // if(tag.Length > 255)
+            // {
+                //return BadRequest($"Tag {tag} is too long");
+            // }
+
+            // Skip any tags that are too long
+            if(tag.Length <= 255) {
+                Models.Tag foundTag = await _tagRepository.FindByName(tag);
+                foundTag ??= (await _tagRepository.CreateNew(tag));
+            }
         }
 
         return true;

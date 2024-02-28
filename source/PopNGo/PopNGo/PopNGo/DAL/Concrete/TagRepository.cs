@@ -23,7 +23,9 @@ namespace PopNGo.DAL.Concrete
         {
             Tag tag = new()
             {
-                Name = name
+                Name = name,
+                BackgroundColor = "#808080",
+                TextColor = "#FFFFFF"
             };
             await _tags.AddAsync(tag);
             await _context.SaveChangesAsync();

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PopNGo.Areas.Identity.Data;
+using PopNGo.Data;
 using PopNGo.Models;
 
 namespace PopNGo.Areas.Identity.Pages.Account

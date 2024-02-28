@@ -45,7 +45,7 @@ export async function searchForEvents(query, callback) {
     }
 }
 
-export async function fetchTagId(tag) {
+export async function fetchTagColor(tag) {
     try {
         const response = await fetch(`/api/tags/name=${tag}`);
         if (!response.ok) {
@@ -98,9 +98,11 @@ export async function formatTags(event, tagsParent) {
         const tagEl = document.createElement('span');
         tagEl.classList.add('tag');
 
-        let tagIndex = await fetchTagId(tag) || null;
-        if(tagIndex !== null)
-            tagEl.classList.add(`tag-${tagIndex}`);
+        let tagStyle = await fetchTagColor(tag) || null;
+        if(tagStyle !== null) {
+            tagEl.style.backgroundColor = tagStyle.backgroundColor;
+            tagEl.style.color = tagStyle.textColor;
+        }
 
         tagEl.textContent = tag;
         tagsParent.appendChild(tagEl);
