@@ -56,6 +56,24 @@ namespace PopNGo.Areas.Identity.Pages.Account.Manage
             [Required]
             [Display(Name = "New email")]
             public string NotificationEmail { get; set; }
+
+            /// <summary>
+            ///   This property is used to specify a user's preference for notifications week-before notifications
+            /// </summary>
+            [Display(Name = "A week before")]
+            public bool WeekBefore { get; set; }
+
+            /// <summary>
+            ///  This property is used to specify a user's preference for notifications day-before notifications
+            /// </summary>
+            [Display(Name = "Day before")]
+            public bool DayBefore { get; set; }
+
+            /// <summary>
+            /// This property is used to specify a user's preference for notifications day-of notifications
+            /// </summary>
+            [Display(Name = "Day of")]
+            public bool DayOf { get; set; }
         }
 
         private void Load(PopNGoUser user)
@@ -65,7 +83,10 @@ namespace PopNGo.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                NotificationEmail = notificationEmail
+                NotificationEmail = notificationEmail,
+                WeekBefore = user.NotifyWeekBefore,
+                DayBefore = user.NotifyDayBefore,
+                DayOf = user.NotifyDayOf
             };
         }
 
@@ -96,11 +117,35 @@ namespace PopNGo.Areas.Identity.Pages.Account.Manage
             }
 
             var notificationEmail = user.NotificationEmail;
+            var weekBefore = user.NotifyWeekBefore;
+            var dayBefore = user.NotifyDayBefore;
+            var dayOf = user.NotifyDayOf;
 
-            // Only update the user if there are changes
-            if (notificationEmail != Input.NotificationEmail)
+            bool changes = false;
+            if (Input.NotificationEmail != notificationEmail)
             {
                 user.NotificationEmail = Input.NotificationEmail;
+                changes = true;
+            }
+            if (Input.WeekBefore != weekBefore)
+            {
+                user.NotifyWeekBefore = Input.WeekBefore;
+                changes = true;
+            }
+            if (Input.DayBefore != dayBefore)
+            {
+                user.NotifyDayBefore = Input.DayBefore;
+                changes = true;
+            }
+            if (Input.DayOf != dayOf)
+            {
+                user.NotifyDayOf = Input.DayOf;
+                changes = true;
+            }
+
+            // Only update the user if there are changes
+            if (changes)
+            {
                 await _userManager.UpdateAsync(user);
             // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             // if (Input.PhoneNumber != phoneNumber)

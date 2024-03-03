@@ -118,3 +118,14 @@ INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20240222131500_NotificationEmailData', N'8.0.1');
 
 COMMIT;
+
+BEGIN TRANSACTION;
+
+ALTER TABLE [AspNetUsers] ADD [NotifyWeekBefore] bit NOT NULL;
+ALTER TABLE [AspNetUsers] ADD [NotifyDayBefore] bit NOT NULL;
+ALTER TABLE [AspNetUsers] ADD [NotifyDayOf] bit NOT NULL;
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240228144100_NotificationEmailData', N'8.0.1');
+
+COMMIT;

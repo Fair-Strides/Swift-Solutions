@@ -20,6 +20,22 @@
                 <label asp-for="Input.NotificationEmail" class="form-label"></label>
                 <span asp-validation-for="Input.NotificationEmail" class="text-danger"></span>
             </div>
+            <hr />
+            <h3 class="text-light text-muted">Notifications</h3>
+            <div class="row mx-1">
+                <div class="form-check mb-3">
+                    <input asp-for="Input.WeekBefore" class="form-check-input" />
+                    <label class="form-check" asp-for="Input.WeekBefore"></label>                
+                </div>
+                <div class="form-check mb-3">
+                    <input asp-for="Input.DayBefore" class="form-check-input" />
+                    <label class="form-check" asp-for="Input.DayBefore"></label>
+                </div>
+                <div class="form-check mb-3">
+                    <input asp-for="Input.DayOf" class="form-check-input" />
+                    <label class="form-check" asp-for="Input.DayOf"></label>
+                </div>
+            </div>
             <button id="update-notifications-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
