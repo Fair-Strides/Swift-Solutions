@@ -1,5 +1,5 @@
 ﻿import { searchForEvents, createTags, processArray, formatTags } from './eventsAPI.js';
-import { showLoginSignupModal } from './Helper-Functions/showUnauthorizedLoginModal.js';
+import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 
 // Function to display events
 async function displayEvents(events) {
