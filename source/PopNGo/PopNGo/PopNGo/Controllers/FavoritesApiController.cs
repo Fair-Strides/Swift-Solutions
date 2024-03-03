@@ -49,10 +49,10 @@ public class FavoritesApiController : Controller
             _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
         }
 
-        // if (_favoritesRepo.IsFavorite(pgUser.Id, eventInfo.ApiEventID)) //If the event is already a favorite, return
-        // {
-        //     return Ok(); // Need to do something here
-        // }
+        if (_favoritesRepo.IsFavorite(pgUser.Id, eventInfo.ApiEventID)) //If the event is already a favorite, return
+        {
+             return Ok();
+        }
 
         // Whether the event existed or not, add it to the favorites
         _favoritesRepo.AddFavorite(pgUser.Id, eventInfo.ApiEventID);

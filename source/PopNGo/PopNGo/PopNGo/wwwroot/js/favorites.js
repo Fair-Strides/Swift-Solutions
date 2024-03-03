@@ -1,4 +1,4 @@
-import { formatStartTime } from './Helper-Functions/formatStartTime.js';
+import { formatStartTime } from './util/formatStartTime.js';
 
 
 function fetchUserFavorites() {
