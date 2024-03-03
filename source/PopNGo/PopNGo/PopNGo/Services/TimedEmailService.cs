@@ -28,9 +28,10 @@ public class TimedEmailService : IHostedService, IDisposable
     public Task StartAsync(CancellationToken stoppingToken)
     {
         DateTime current = DateTime.Now;
+        // DateTime next = new DateTime(current.Year, current.Month, current.Day, 0, 0, 0).AddHours(1).AddMinutes(45);
         DateTime next = new DateTime(current.Year, current.Month, current.Day, current.Hour, current.Minute, current.Second).AddMinutes(1);
-        // _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromSeconds(5));
-        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+        _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromSeconds(5));
+        // _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromDays(1));
 
         return Task.CompletedTask;
     }
@@ -79,11 +80,12 @@ public class TimedEmailService : IHostedService, IDisposable
                 string emailBody = $"<div style=\"margin: 0px; padding: 0px;\">";
                 emailBody += "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" bgcolor=\"#d35400\"><tr><td width=\"100%\" align=\"center\"><img src=\"https://popngo.azurewebsites.net/media/logo.svg\" alt=\"PopNGo Logo\" width=\"100\" height=\"100\" style=\"display: block;\" /></td></tr>";
                 emailBody += "<tr><td width=\"100%\" align=\"center\"><h1 style=\"color: #ffffff; font-family: Arial, sans-serif; margin-bottom:0px;\">Pop-n-Go</h1></td></tr>";
-                emailBody += $"<tr><td width=\"100%\" style=\"padding: 15px;\"><p style=\"color: #ffffff; font-family: Arial, sans-serif;\">Hello, {popNGoUser.FirstName},</p><p style=\"color: #ffffff; font-family: Arial, sans-serif;\">Thank you for using Pop-n-Go's services. We've collected a list of events you showed interest in and wanted to let you know what's ahead in case you want to alter your plans for them.</p></td></tr>";
+                emailBody += $"<tr><td width=\"90%\" style=\"padding: 15px; padding-left: 5%; padding-right: 5%;\"><p style=\"color: #ffffff; font-family: Arial, sans-serif;\">Hello, {popNGoUser.FirstName},</p><p style=\"color: #ffffff; font-family: Arial, sans-serif;\">Thank you for using Pop-n-Go's services. We've collected a list of events you showed interest in and wanted to let you know what's ahead in case you want to alter your plans for them.</p></td></tr>";
                 emailBody += "<tr><td width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">Your Event Reminders</h2></td></tr>";
 
                 // Today's events
-                emailBody += "<tr><td style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">Today:</h3></td></tr>";
+                emailBody += "<hr style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"90%\" align=\"center\" />";
+                emailBody += "<tr><td width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">Today:</h3></td></tr>";
                 if (dayOfFaves.Count > 0)
                 {
                     emailBody += BuildEvents(dayOfFaves);
@@ -92,7 +94,8 @@ public class TimedEmailService : IHostedService, IDisposable
                 }
 
                 // Tomorrow's events
-                emailBody += "<tr><td style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">Tomorrow:</h3></td></tr>";
+                emailBody += "<hr style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"90%\" align=\"center\" />";
+                emailBody += "<tr><td width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">Tomorrow:</h3></td></tr>";
                 if (dayBeforeFaves.Count > 0)
                 {
                     emailBody += BuildEvents(dayBeforeFaves);
@@ -101,7 +104,8 @@ public class TimedEmailService : IHostedService, IDisposable
                 }
 
                 // Events from a week from now
-                emailBody += "<tr><td style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">A week from now:</h3></td></tr>";
+                emailBody += "<hr style=\"border-top: 1px solid #d6d6d6; line-height: 1px;\" width=\"90%\" align=\"center\" />";
+                emailBody += "<tr><td width=\"100%\" align=\"center\"><h2 style=\"color: #ffffff; font-family: Arial, sans-serif;\">A week from now:</h3></td></tr>";
                 if (weekBeforeFaves.Count > 0)
                 {
                     emailBody += BuildEvents(weekBeforeFaves);
@@ -139,7 +143,7 @@ public class TimedEmailService : IHostedService, IDisposable
 
     public string BuildEvents(List<Models.DTO.Event> events)    
     {
-        string emailBody = "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"90%\" align=\"center\" bgcolor=\"#ff8f45\" style=\"border-color: rgba(255, 255, 255, 0.5); margin-bottom:10px;\">";
+        string emailBody = "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"90%\" align=\"center\" bgcolor=\"#ff8f45\" style=\"border-color: rgba(163, 65, 0, 0.5); border-radius: 5px; margin-bottom:10px;\">";
         foreach (var e in events)
         {
             if(e.EventDate.Hour == 0)
