@@ -31,6 +31,10 @@
   margin-bottom: 10px;
 }
 
+.date-and-tags {
+  display: inline-flex;
+}
+
 #date {
   text-align: center;
   color: white;
@@ -40,8 +44,14 @@
 #description {
   text-align: center;
   font-size: 1rem;
+<<<<<<< Updated upstream
   color: white;
   margin: 10px 10px 10px 10px;
+=======
+  font-weight: normal;
+  overflow-y: auto;
+  max-height: 15vh;
+>>>>>>> Stashed changes
 }
 
 #image {
