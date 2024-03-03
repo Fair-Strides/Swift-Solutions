@@ -53,6 +53,10 @@
     filter: invert(100%) sepia(77%) saturate(2%) hue-rotate(75deg) brightness(101%) contrast(101%);
 }
 
+.date-and-tags {
+  display: inline-flex;
+}
+
 #date {
     text-align: left;
     display: table;
@@ -61,6 +65,11 @@
 #description {
   text-align: left;
   font-size: 1rem;
+  color: white;
+  margin: 10px 10px 10px 10px;
+  font-weight: normal;
+  overflow-y: auto;
+  max-height: 15vh;
   font-weight: normal;
 }
 
