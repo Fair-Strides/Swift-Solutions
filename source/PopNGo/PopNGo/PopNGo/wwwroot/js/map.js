@@ -1,9 +1,8 @@
-import { fetchEventData } from './eventsAPI.js';
-import { formatStartTime } from './Helper-Functions/formatStartTime.js';
 import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
 import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 import { searchForEvents, createTags, formatTags } from './eventsAPI.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
+import { formatStartTime } from './util/formatStartTime.js';
 
 // Function to create the map and display events
 window.initMap = async function (events) {

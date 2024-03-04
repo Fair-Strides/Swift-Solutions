@@ -1,5 +1,3 @@
-import { formatStartTime } from './Helper-Functions/formatStartTime.js';
-
 function formatDateWithWeekday(startTime) {
     const date = new Date(startTime);
     return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
