@@ -34,10 +34,10 @@ public class TimedEmailService : IHostedService, IDisposable
     public Task StartAsync(CancellationToken stoppingToken)
     {
         DateTime current = DateTime.Now;
-        // DateTime next = new DateTime(current.Year, current.Month, current.Day, 0, 0, 0).AddHours(1).AddMinutes(45);
-        DateTime next = new DateTime(current.Year, current.Month, current.Day, current.Hour, current.Minute, current.Second).AddSeconds(10);
-        _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromSeconds(5));
-        // _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromDays(1));
+        DateTime next = new DateTime(current.Year, current.Month, current.Day, 0, 0, 0).AddDays(1);
+        // DateTime next = new DateTime(current.Year, current.Month, current.Day, current.Hour, current.Minute, current.Second).AddSeconds(10);
+        // _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromSeconds(5));
+        _timer = new Timer(DoWork, null, TimeSpan.FromSeconds((next - current).TotalSeconds), TimeSpan.FromDays(1));
 
         return Task.CompletedTask;
     }

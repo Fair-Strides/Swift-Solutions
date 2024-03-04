@@ -39,25 +39,25 @@ public class Program
 
         // Add services to the container.
         // var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
-        var identityConnection = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("IdentityConnectionAzure"))
-        {
-            Password = builder.Configuration["PopNGo:DBPassword"]
-        };
-        var identityConnectionString = identityConnection.ConnectionString;
+        // var identityConnection = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("IdentityConnectionAzure"))
+        // {
+        //     Password = builder.Configuration["PopNGo:DBPassword"]
+        // };
+        // var identityConnectionString = identityConnection.ConnectionString;
         // var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection");
-        // var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnectionAzure");
+        var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnectionAzure");
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
             .UseSqlServer(identityConnectionString)
             .UseLazyLoadingProxies());
         
         // var serverConnectionString = builder.Configuration.GetConnectionString("ServerConnection") ?? throw new InvalidOperationException("Connection string 'ServerConnection' not found.");
-        var serverConnection = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("ServerConnectionAzure"))
-        {
-            Password = builder.Configuration["PopNGo:DBPassword"]
-        };
-        var serverConnectionString = serverConnection.ConnectionString;
+        // var serverConnection = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("ServerConnectionAzure"))
+        // {
+        //     Password = builder.Configuration["PopNGo:DBPassword"]
+        // };
+        // var serverConnectionString = serverConnection.ConnectionString;
         // var serverConnectionString = builder.Configuration.GetConnectionString("ServerConnection");
-        // var serverConnectionString = builder.Configuration.GetConnectionString("ServerConnectionAzure");
+        var serverConnectionString = builder.Configuration.GetConnectionString("ServerConnectionAzure");
         builder.Services.AddDbContext<PopNGoDB>(options => options
             .UseSqlServer(serverConnectionString)
             .UseLazyLoadingProxies());
