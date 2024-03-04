@@ -1,4 +1,4 @@
-<h1>Favorite Events</h1>
+<h1 id="favorite-events-title" style="text-align: center;">Favorite Events</h1>
 
 @*Favorite events go here*@
 <div id="favorite-events-container"></div>
@@ -6,12 +6,50 @@
 @*This section is hidden by default and only shown if the user is not logged in.*@
 <div id="login-prompt" style="display: none;">
     <h1>Access Restricted</h1>
-    <p>You need to be logged in to access this feature. Please <a href="/Identity/Account/Login">log in</a> or <a href="/Identity/Account/Register">sign up</a>.</p>
+    <h3>You need to be logged in to access this feature. Please <a href="/Identity/Account/Login">log in</a> or <a
+            href="/Identity/Account/Register">sign up</a>.</h3>
 </div>
 
 <div id="no-favorites-message" style="display: none;">
-    <p>You have no favorite events. Go to <a href="/">explore</a> or <a href="">map</a> page to find some!</p>
+    <h3>You have no favorite events. Go to <a href="/Home/ExplorePage">explore</a> or <a href="/Map">map</a> page to find some!</h3>
 </div>
+
+<template id="event-card-template">
+    <div class="container position-relative text-white d-flex justify-content-center align-items-center">
+        <div class="card mb-3" id="event-card">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-body mx-4">
+                        <h5 class="card-title pt-lg-5">Card title</h5>
+                        <p class="card-text p-0 m-0 card-date"><small class="text-muted">MON, March 1, 2024 to March 3,
+                                2024</small></p>
+                        <p class="card-text p-0"><small class="text-muted">8am to 3:30pm</small></p>
+                        <div class="postcard-bar"></div>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.</p>
+                        <div class="mt-lg-5">
+                            <button class="btn btn-warning position-relative heart-button">
+                                <img class="heart-icon" src="/media/images/heart-filled.svg" width="20" height="20" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @* <div class="col-md-4 position-relative">
+                    <div class="position-relative">
+                        <img id="event-img" src="https://picsum.photos/1000/1000" class="img-fluid rounded-start"
+                            alt=" ...">
+                        <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                    </div>
+                    <div class="tags p-3 position-absolute bottom-0 start-0" style="z-index: 1;">
+                        <span class="badge bg-primary">Tag1</span>
+                        <span class="badge bg-secondary">Tag2</span>
+                        <span class="badge bg-warning">Tag3</span>
+                    </div>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</template>
 
 @section Scripts {
     <script type="module" src="~/js/favorites.js"></script>

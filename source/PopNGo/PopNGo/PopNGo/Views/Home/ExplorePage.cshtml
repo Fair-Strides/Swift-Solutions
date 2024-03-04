@@ -2,6 +2,28 @@
     ViewData["Title"] = "Explore Page";
 }
 
+<div id="event-details-modal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modal-title" class="modal-title">Event title</h5>
+            </div>
+            <div class="modal-body">
+                <p class="text-light p-2 bg-orange rounded-pill" id="modal-date">july 12321</p>
+                
+                <p id="modal-description">Modal body text goes here.</p>
+                <div class="tags" id="modal-tags-container">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p id="modal-address">1239 5head st. nw</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <h1 class="container text-light px-5 " id="search-title"></h1>
 <partial name="EventSearch" />
 <div class="container px-5 text-light" id="eventsContainer"></div>
@@ -11,7 +33,6 @@
 
 @* This is the container for the "toasts" that appear on the side of the screen when favoriting/unfavorating*@
 <div id="toastContainer"></div>
-
 
 
 @section Scripts {

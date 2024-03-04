@@ -1,7 +1,8 @@
+import { fetchEventData } from './eventsAPI.js';
+import { formatStartTime } from './Helper-Functions/formatStartTime.js';
 import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
 import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 import { searchForEvents, createTags, formatTags } from './eventsAPI.js';
-import { formatStartTime } from './util/formatStartTime.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 
 // Function to create the map and display events
@@ -67,7 +68,7 @@ window.initMap = async function (events) {
 
                 // Populate the event info div with the tags
                 if (event.eventTags && event.eventTags.length > 0) {
-                    await formatTags(event, tagsElement);
+                    await formatTags(event.eventTags, tagsElement);
                 } else {
                     const tagEl = document.createElement('span');
                     tagEl.classList.add('tag');

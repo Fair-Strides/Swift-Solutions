@@ -30,39 +30,45 @@ public class FavoritesApiController : Controller
     }
 
     [HttpPost("AddFavorite")]
-    public IActionResult AddFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo) //AddFavoriteRequest is a class that contains a Favorite and an Event
+    public async Task<IActionResult> AddFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo) //AddFavoriteRequest is a class that contains a Favorite and an Event
     {
-        PopNGoUser user = _userManager.GetUserAsync(User).Result;
-        if (user == null)
+        try
         {
-            return Unauthorized();
-        }
+            PopNGoUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
 
-        PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
-        if (pgUser == null)
+            PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
+            if (pgUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
+            {
+                _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
+            }
+
+            // Whether the event existed or not, add it to the favorites
+            _favoritesRepo.AddFavorite(pgUser.Id, eventInfo.ApiEventID); // AddFavorite already has error handling
+            return Ok();
+        }
+        catch (Exception ex)
         {
-            return Unauthorized();
-        }
+            // Log the exception, for example:
+            _logger.LogError(ex, "An error occurred while adding a favorite event.");
 
-        if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
-        {
-            _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
+            // Return a 500 Internal Server Error status code and a message to the client
+            return StatusCode(500, "An error occurred while processing your request.");
         }
-
-        if (_favoritesRepo.IsFavorite(pgUser.Id, eventInfo.ApiEventID)) //If the event is already a favorite, return
-        {
-             return Ok();
-        }
-
-        // Whether the event existed or not, add it to the favorites
-        _favoritesRepo.AddFavorite(pgUser.Id, eventInfo.ApiEventID);
-        return Ok();
     }
 
     [HttpPost("RemoveFavorite")]
-    public IActionResult RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo)
+    public async Task<IActionResult> RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo)
     {
-        PopNGoUser user = _userManager.GetUserAsync(User).Result;
+        PopNGoUser user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
             return Unauthorized();
@@ -74,55 +80,87 @@ public class FavoritesApiController : Controller
             return Unauthorized();
         }
 
-        if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
+        try
         {
-            _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
-        }
+            if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
+            {
+                _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
+            }
 
-        _favoritesRepo.RemoveFavorite(pgUser.Id, eventInfo.ApiEventID);
-        return Ok();
+            _favoritesRepo.RemoveFavorite(pgUser.Id, eventInfo.ApiEventID);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception, for example:
+            _logger.LogError(ex, "An error occurred while removing a favorite event.");
+
+            // Return a 500 Internal Server Error status code and a message to the client
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
     }
 
     [HttpGet("GetUserFavorites")]
-    public ActionResult<IEnumerable<PopNGo.Models.DTO.Event>> GetUserFavorites() //works
+    public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetUserFavorites()
     {
-        PopNGoUser user = _userManager.GetUserAsync(User).Result;
-        if (user == null)
+        try
         {
-            return Unauthorized();
-        }
+            PopNGoUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
 
-        PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
-        if (pgUser == null)
+            PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
+            if (pgUser == null)
+            {
+                return Unauthorized();
+            }
+
+            List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(pgUser.Id);
+            if (events == null || events.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return events;
+        }
+        catch (Exception ex)
         {
-            return Unauthorized();
-        }
-        
+            // Log the exception, for example:
+            _logger.LogError(ex, "An error occurred while getting user favorites.");
 
-        List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(pgUser.Id);
-        if (events == null || events.Count == 0)
-        {
-            return NotFound();
+            // Return a 500 Internal Server Error status code and a message to the client
+            return StatusCode(500, "An error occurred while processing your request.");
         }
-
-        return events;
     }
 
     [HttpGet("IsFavorite")]
-    public ActionResult<bool> IsFavorite(string eventId) //works
+    public async Task<ActionResult<bool>> IsFavorite(string eventId)
     {
-        PopNGoUser user = _userManager.GetUserAsync(User).Result;
-        if (user == null)
+        try
         {
-            return false; // Return false if the user is not authenticated, instead of returning Unauthorized which is misleading
-        }
+            PopNGoUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return false; // Return false if the user is not authenticated, instead of returning Unauthorized which is misleading
+            }
 
-        PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
-        if (pgUser == null)
+            PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
+            if (pgUser == null)
+            {
+                return false; // Return false if the user is not found, instead of returning Unauthorized which is misleading
+            }
+
+            return _favoritesRepo.IsFavorite(pgUser.Id, eventId);
+        }
+        catch (Exception ex)
         {
-            return false; // Return false if the user is not found, instead of returning Unauthorized which is misleading
-        }
+            // Log the exception, for example:
+            _logger.LogError(ex, "An error occurred while checking if the event is a favorite.");
 
-        return _favoritesRepo.IsFavorite(pgUser.Id, eventId);
+            // Return a 500 Internal Server Error status code and a message to the client
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
     }
 }

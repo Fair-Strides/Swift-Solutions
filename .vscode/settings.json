@@ -1,3 +1,4 @@
 {
+    "dotnet-test-explorer.testProjectPath": "source/PopNGo/PopNGo/PopNGo_Tests/PopNGo_Tests.csproj",
     "appService.defaultWebAppToDeploy": "/subscriptions/652284ae-0e8a-460a-94b9-58a307bb749a/resourceGroups/SwiftSolutions-Tristan/providers/Microsoft.Web/sites/popngo"
 }

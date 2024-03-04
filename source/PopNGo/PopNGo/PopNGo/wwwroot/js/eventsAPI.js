@@ -91,8 +91,8 @@ export async function createTags(events) {
     }
 }
 
-export async function formatTags(event, tagsParent) {
-    processArray(event.eventTags, async (tag) => {
+export async function formatTags(tags, tagsParent) {
+    processArray(tags, async (tag) => {
         tag = capitalize(tag).replace(/-|_/g, ' ');
 
         const tagEl = document.createElement('span');

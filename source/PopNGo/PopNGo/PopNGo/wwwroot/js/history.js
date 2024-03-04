@@ -52,7 +52,7 @@ function displayEvents(events) {
 
 // Fetch event data and display it
 async function fetchAndDisplayEvents() {
-    fetch("/api/eventHistory").then(response => response.json())
+    fetch("/api/EventHistoryApi/EventHistory").then(response => response.json())
         .then(data => displayEvents(data))
         .catch(error => console.error('Error fetching event data:', error));
 }
