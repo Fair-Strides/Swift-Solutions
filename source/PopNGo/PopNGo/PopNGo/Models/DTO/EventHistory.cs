@@ -9,7 +9,7 @@ namespace PopNGo.Models.DTO
         public int Id { get; set; }
         public int UserId { get; set; }
         public DateTime ViewedDate { get; set; }
-        public string EventId { get; set; }
+        public int EventId { get; set; }
         public DateTime EventDate { get; set; }
         public string EventName { get; set; }
         public string EventDescription { get; set; }
@@ -29,10 +29,10 @@ namespace PopNGo.ExtensionMethods
                 UserId = eventHistory.UserId,
                 ViewedDate = eventHistory.ViewedDate,
                 EventId = eventHistory.EventId,
-                EventDate = eventHistory.EventDate,
-                EventDescription = eventHistory.EventDescription,
-                EventLocation = eventHistory.EventLocation,
-                EventName = eventHistory.EventName
+                // EventDate = eventHistory.EventDate,
+                // EventDescription = eventHistory.EventDescription,
+                // EventLocation = eventHistory.EventLocation,
+                // EventName = eventHistory.EventName
     };
         }
     }

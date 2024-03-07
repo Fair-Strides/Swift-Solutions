@@ -6,9 +6,9 @@ using PopNGo.Models.DTO;
 
 namespace PopNGo.DAL.Concrete
 {
-    public class EventHistoryRepository : Repository<EventHistory>, IEventHistoryRepository
+    public class EventHistoryRepository : Repository<Models.EventHistory>, IEventHistoryRepository
     {
-        private readonly DbSet<EventHistory> _eventHistories;
+        private readonly DbSet<Models.EventHistory> _eventHistories;
         private readonly DbSet<Models.Event> _events;
         public EventHistoryRepository(PopNGoDB context) : base(context)
         {
@@ -51,7 +51,7 @@ namespace PopNGo.DAL.Concrete
                 return;
             } else
             {
-                var newEventHistory = new EventHistory { UserId = userId, EventId = eventEntity.Id, ViewedDate = DateTime.UtcNow };
+                var newEventHistory = new Models.EventHistory { UserId = userId, EventId = eventEntity.Id, ViewedDate = DateTime.UtcNow };
 
                 try
                 {
