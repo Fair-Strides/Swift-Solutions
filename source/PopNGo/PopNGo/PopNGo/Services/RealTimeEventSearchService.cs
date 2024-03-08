@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PopNGo.Models;
+using System.Linq.Expressions;
 namespace PopNGo.Services
 {
     class Parameter
@@ -76,6 +77,14 @@ namespace PopNGo.Services
         public List<Data> data { get; set; }
     }
 
+    class EventInfoDetail
+    {
+        public string status { get; set; }
+        public string request_id { get; set; }
+        public Parameter parameters { get; set; }
+        public Data data { get; set; }
+    }
+
 
 
     public class RealTimeEventSearchService : IRealTimeEventSearchService
@@ -113,31 +122,81 @@ namespace PopNGo.Services
                 {
                     PropertyNameCaseInsensitive = true
                 };
-                AllEventDetail allEventDetail = JsonSerializer.Deserialize<AllEventDetail>(responseBody, options);
-                return allEventDetail.data
-                .Select(data => new EventDetail
-                {
-                    EventID = data.event_id,
-                    EventName = data.name.ToString(),
-                    EventLink = data.link,
-                    EventDescription = data.description,
-                    EventStartTime = DateTime.TryParse(data.start_time, out DateTime startTime) ? startTime : DateTime.MinValue,
-                    EventEndTime = DateTime.TryParse(data.end_time, out DateTime endTime) ? endTime : DateTime.MinValue,
-                    EventIsVirtual = data.is_virtual,
-                    EventThumbnail = data.thumbnail,
-                    EventLanguage = data.language,
-                    Full_Address = data.venue.full_address,
-                    Longitude = data.venue.longitude,
-                    Latitude = data.venue.latitude,
-                    Phone_Number = data.venue.phone_number,
-                    EventTags = data.tags
 
-                });
+                AllEventDetail allEventDetail = JsonSerializer.Deserialize<AllEventDetail>(responseBody, options);
+                IList<EventDetail> eventDetails = new List<EventDetail>();
+                int count = allEventDetail.data.Count;
+
+                // Fetch each event's individual details
+                allEventDetail.data.ForEach(async data => eventDetails.Add(await SearchEventInfoAsync(data.event_id)));
+                
+                // Forcibly wait till all the events have had their details fetched
+                while (eventDetails.Count < count)
+                {
+                    Thread.Sleep(50);
+                }
+                
+                return eventDetails;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"An error occurred: {ex.Message}");
                 return Enumerable.Empty<EventDetail>();
+            }
+        }
+        public async Task<EventDetail> SearchEventInfoAsync(string eventId)
+        {
+            string endpoint = $"event-details?event_id={eventId}";
+
+            // Sleep for 250ms to avoid rate limiting
+            Thread.Sleep(250);
+            _logger.LogInformation($"Calling Real Time Search Event API at {endpoint}");
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+                string responseBody;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    responseBody = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    HandleErrorResponse(response.StatusCode);
+                    return null;
+                }
+
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                // Console.WriteLine($"Query: {endpoint},\nResponse: {responseBody}");
+                EventInfoDetail newEvent = JsonSerializer.Deserialize<EventInfoDetail>(responseBody, options);
+                
+                return new EventDetail
+                {
+                    EventID = newEvent.data.event_id,
+                    EventName = newEvent.data.name,
+                    EventLink = newEvent.data.link,
+                    EventDescription = newEvent.data.description,
+                    EventStartTime = DateTime.TryParse(newEvent.data.start_time, out DateTime startTime) ? startTime : DateTime.MinValue,
+                    EventEndTime = DateTime.TryParse(newEvent.data.end_time, out DateTime endTime) ? endTime : DateTime.MinValue,
+                    EventIsVirtual = newEvent.data.is_virtual,
+                    EventThumbnail = newEvent.data.thumbnail,
+                    EventLanguage = newEvent.data.language,
+                    Full_Address = newEvent.data.venue?.full_address ?? "",
+                    Longitude = newEvent.data.venue?.longitude ?? 0,
+                    Latitude = newEvent.data.venue?.latitude ?? 0,
+                    Phone_Number = newEvent.data.venue?.phone_number,
+                    EventTags = newEvent.data.tags
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                return null;
             }
         }
 
@@ -150,6 +209,10 @@ namespace PopNGo.Services
             else if (statusCode == HttpStatusCode.NotFound)
             {
                 _logger.LogError("Network failure. Check your API URL.");
+            }
+            else if (statusCode == HttpStatusCode.TooManyRequests)
+            {
+                _logger.LogError("Rate limit exceeded. Try again later.");
             }
             else
             {
