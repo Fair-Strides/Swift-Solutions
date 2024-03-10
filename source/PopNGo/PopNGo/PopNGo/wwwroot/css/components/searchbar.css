@@ -1,0 +1,8 @@
+#search-event-input {
+    background-color: #ff9b58 !important;
+    color: #d35400 !important;
+    border-color: #ffab74;
+    border-radius: unset;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
