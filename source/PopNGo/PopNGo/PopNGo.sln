@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopNGo", "PopNGo\PopNGo.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopNGo_Tests", "PopNGo_Tests\PopNGo_Tests.csproj", "{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopNGo_JSTests", "PopNGo_JSTests\PopNGo_JSTests.esproj", "{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,11 @@ Global
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
