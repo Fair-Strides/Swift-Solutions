@@ -325,3 +325,7 @@ body {
 #event-img {
     border-radius: 20px;
 }
+
+.bg-none {
+  background-color: transparent;
+}
