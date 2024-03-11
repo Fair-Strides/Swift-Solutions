@@ -1,0 +1,21 @@
+@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Users";
+    ViewData["ActivePage"] = ManageNavPages.Users;
+    @* Layout = "_Layout.cshtml"; *@
+}
+
+<div class="container">
+    <partial name="../../Identity/Pages/Account/_StatusMessage" model="Model.StatusMessage" />
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Instructions</h2>
+            <p>Manage users here.</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
