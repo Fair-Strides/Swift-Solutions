@@ -32,7 +32,7 @@ export async function fetchEventData(query) {
 }
 
 export async function searchForEvents(query, callback) {
-    const searchQuery = query;
+    let searchQuery = query;
     
     if(!searchQuery) {
         const input = document.getElementById('search-event-input')?.value ?? '';

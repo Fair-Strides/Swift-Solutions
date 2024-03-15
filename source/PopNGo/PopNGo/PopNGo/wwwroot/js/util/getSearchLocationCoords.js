@@ -13,7 +13,7 @@ export async function getLocationCoords(country, state, city) {
 
         console.debug("Results, pre-processed: ", data.results);
         data.results = data.results.map(c => {
-            if(c.types.find(t => /^[locality|country]/.test(t)))
+            if(c.types.find(t => /^[sublocality|locality|country]/.test(t)))
                 return c;
         }).filter(entry => !!entry);
 
