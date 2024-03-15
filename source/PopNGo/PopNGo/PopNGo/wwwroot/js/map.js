@@ -1,13 +1,18 @@
 import { onClickFavorite } from './api/favorites/onClickFavorite.js';
-import { searchForEvents, createTags, formatTags } from './eventsAPI.js';
+import { createTags, formatTags } from './eventsAPI.js';
+import { getEvents } from './api/events/getEvents.js';
 import { formatStartTime } from './util/formatStartTime.js';
-import { getNearestCityAndState } from './util/getNearestCityAndState.js';
 import { loadMapScript } from './util/loadMapScript.js';
 import { getEventIsFavorited } from './api/favorites/getEventIsFavorited.js';
 import { getCountries, getStates, getCities } from './util/getSearchLocationOptions.js';
 import { getLocationCoords } from './util/getSearchLocationCoords.js';
+import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
 
-var map;
+
+let map;
+// let lastLocation = null; // The last location that was searched for
+// let isWaiting = false; // A flag to prevent the updateLocationAndFetch function from being called too frequently
+
 // Function to create the map and display events
 window.initMap = async function (events) {
     document.getElementById('searching-events-section')?.classList.toggle('hidden', true); // Hide the searching events section
@@ -34,23 +39,13 @@ window.initMap = async function (events) {
             minZoom: 10,
             maxZoom: 15
         });
+      
+        google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
     } else {
         // If it does, move the map to the new coordinates
         map.setCenter(mapCoords ?? monmouth);
     }
 
-    await google.maps.event.addListener(map, 'dragend', function () {
-        var center = map.getCenter();
-        var latitude = center.lat();
-        var longitude = center.lng();
-        getNearestCityAndState(latitude, longitude).then(location => {
-            if (location) {
-                searchForEvents(`Events in ${location.city}, ${location.state}`, initMap)
-            } else {
-                console.log('Could not find city and state for the provided latitude and longitude');
-            }
-        });
-    });
 
     const loadingOverlay = document.createElement('div');
     loadingOverlay.id = 'loading-overlay';
@@ -155,8 +150,10 @@ window.onload = async function () {
     document.getElementById('searching-events-section')?.classList.toggle('hidden', true); // Hide the searching events section
 
     if (document.getElementById('demo-map-id')) {
-        loadMapScript();
-        searchForEvents("Events in Monmouth, Oregon", initMap);
+        await loadMapScript();
+        // searchForEvents("Events in Monmouth, Oregon", initMap);
+        let events = await getEvents("Events in Monmouth, Oregon");
+        initMap(events);
     }
 
     // Load up the countries, states, and cities for the search input
@@ -205,6 +202,6 @@ window.onload = async function () {
 
     document.getElementById('search-event-input').addEventListener('keyup', function (event) {
         if (event.key === 'Enter')
-            searchForEvents(null, initMap);
+            getEvents("Events in Monmouth, Oregon");
     });
 };

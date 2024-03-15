@@ -43,6 +43,10 @@ export async function searchForEvents(query, callback) {
         searchQuery = `${input} in ${city}, ${state}, ${country}`;
     }
 
+    document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Hide the no events section
+    document.getElementById('searching-events-section')?.classList.toggle('hidden', false); // Show the searching events section
+    // console.log("This function ran.")
+
     if (searchQuery) {
         console.debug('Searching for events:', searchQuery);
         document.getElementById('no-events-section')?.classList.toggle('hidden', true); // Hide the no events section
