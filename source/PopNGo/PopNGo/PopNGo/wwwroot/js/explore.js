@@ -2,14 +2,13 @@
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 import { showToast } from './util/toast.js';
-import { buildEventCard } from './ui/buildEventCard.js';
-import { buildEventDetailsModal } from './ui/buildEventDetailsModal.js';
+import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
+import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
 import { getEvents } from './api/events/getEvents.js';
 import { getEventIsFavorited } from './api/favorites/getEventIsFavorited.js';
 import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
 import { loadMapScript } from './util/loadMapScript.js';
-import { getNearestCityAndState } from './util/getNearestCityAndState.js';
 import { getLocationCoords } from './util/getSearchLocationCoords.js';
 import { loadSearchBar, getSearchQuery, toggleNoEventsSection, toggleSearchingEventsSection,
         setCity, setCountry, setState } from './util/searchBarEvents.js';
@@ -18,6 +17,31 @@ import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
 let map = null;
 let page = 0;
 const pageSize = 10;
+
+// Fetch event data and display it
+document.addEventListener('DOMContentLoaded', async function () {
+    await loadSearchBar();
+
+    document.getElementById('next-page-button').addEventListener('click', nextPage);
+    document.getElementById('previous-page-button').addEventListener('click', previousPage);
+
+    if (document.getElementById('events-container')) {
+        await setCountry("United States");
+        await setState("Oregon");
+        await setCity("Monmouth");
+
+
+        searchForEvents();
+    }
+
+    document.getElementById('search-event-button').addEventListener('click', async function () { await searchForEvents(); });
+
+    document.getElementById('search-event-input').addEventListener('keyup', async function (event) {
+        if (event.key === 'Enter') {
+            await searchForEvents();
+        }
+    });
+}, { once: true });
 
 /**
  * Takes in an event info object and adds it to the history via http and opens the event details modal
@@ -45,12 +69,13 @@ async function onClickDetailsAsync(eventInfo) {
         onPressFavorite: () => onPressFavorite(eventApiBody, eventDetailsModalProps.favorited)
     }
 
-    buildEventDetailsModal(document.getElementById('event-details-modal'), eventDetailsModalProps)
+    if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
+        buildEventDetailsModal(document.getElementById('event-details-modal'), eventDetailsModalProps);
+        const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
+        modal.show();
 
-    const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
-    modal.show();
-
-    addEventToHistory(eventApiBody);
+        addEventToHistory(eventApiBody);
+    };
 }
 
 /**
@@ -62,9 +87,8 @@ async function onClickDetailsAsync(eventInfo) {
 async function nextPage() {
     window.scrollTo(0, 0);
     page++;
-    const events = await getEvents(await getSearchQuery(), page * pageSize);
-    displayEvents(events);
-    initMap(events);
+    searchForEvents();
+
     document.getElementById('page-number').innerHTML = page + 1
 
     document.getElementById('previous-page-button').innerHTML = page;
@@ -82,9 +106,7 @@ async function previousPage() {
     if (page > 0) {
         window.scrollTo(0, 0);
         page--;
-        const events = await getEvents(await getSearchQuery(), page * pageSize);
-        displayEvents(events);
-        initMap(events);
+        searchForEvents();
         // set page number
         document.getElementById('page-number').innerHTML = page + 1;
         document.getElementById('previous-page-button').innerHTML = page;
@@ -95,8 +117,8 @@ async function previousPage() {
     }
 }
 
-export async function getPaginationIndex() {
-    return +(page * pageSize);
+export function getPaginationIndex() {
+    return (page * pageSize);
 }
 
 /**
@@ -108,13 +130,6 @@ export async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container')
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template')
-
-    if (!events || events.length === 0) {
-        toggleNoEventsSection(true); // Show the no events section
-        return;
-    } else {
-        toggleNoEventsSection(false); // Hide the no events section
-    }
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
@@ -142,9 +157,10 @@ export async function displayEvents(events) {
             onPressFavorite: () => onPressFavorite(eventApiBody, eventCardProps.favorited),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
-
-        buildEventCard(newEventCard, eventCardProps);
-        eventsContainer.appendChild(newEventCard);
+        if (validateBuildEventCardProps(eventCardProps)) {
+            buildEventCard(newEventCard, eventCardProps);
+            eventsContainer.appendChild(newEventCard);
+        }
     }
 }
 
@@ -191,8 +207,14 @@ async function onPressFavorite(eventInfo, favorited) {
  * @returns {Promise<void>}
  */
 async function searchForEvents() {
-    const events = await getEvents(await getSearchQuery(), await getPaginationIndex());
+    console.log("search")
+    toggleNoEventsSection(false);
+    toggleSearchingEventsSection(true);
+    const events = await getEvents(await getSearchQuery(), getPaginationIndex());
     toggleSearchingEventsSection(false); // Hide the searching events section
+    if (!events || events.length === 0) {
+        toggleNoEventsSection(true);
+    }
     displayEvents(events);
     initMap(events);
 
@@ -205,30 +227,7 @@ async function searchForEvents() {
         map.setCenter(mapCoords ?? map.getCenter());
 }
 
-// Fetch event data and display it
-document.addEventListener('DOMContentLoaded', async function () {
-    await loadSearchBar();
 
-    document.getElementById('next-page-button').addEventListener('click', nextPage);
-    document.getElementById('previous-page-button').addEventListener('click', previousPage);
-
-    if (document.getElementById('events-container')) {
-        await setCountry("United States");
-        await setState("Oregon");
-        await setCity("Monmouth");        
-        
-        const events = await getEvents("Events in Monmouth, Oregon", await getPaginationIndex());
-        displayEvents(events);
-    }
-
-    document.getElementById('search-event-button').addEventListener('click', async function() { await searchForEvents(); });
-
-    document.getElementById('search-event-input').addEventListener('keyup', async function (event) {
-        if (event.key === 'Enter') {
-            await searchForEvents();
-        }
-    });
-});
 
 // Function to create the map and display events
 window.initMap = async function (events) {
@@ -244,23 +243,7 @@ window.initMap = async function (events) {
             maxZoom: 15
         });
 
-        google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
-
-        await google.maps.event.addListener(map, 'dragend', function () {
-            var center = map.getCenter();
-            var latitude = center.lat();
-            var longitude = center.lng();
-            getNearestCityAndState(latitude, longitude).then(async location => {
-                if (location) {
-                    let pagination = await getPaginationIndex();
-                    getEvents(`Events in ${location.city}, ${location.state}`, pagination)
-                    .then((newEvents) => displayEvents(newEvents))
-                    .then((newEvents) => initMap(newEvents));
-                } else {
-                    console.log('Could not find city and state for the provided latitude and longitude');
-                }
-            });
-        });
+        google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map, getPaginationIndex()));
     }
 
     events.forEach(async eventInfo => {
@@ -285,12 +268,5 @@ window.initMap = async function (events) {
 window.onload = async function () {
     if (document.getElementById('demo-map-id')) {
         loadMapScript();
-        await setCountry("United States");
-        await setState("Oregon");
-        await setCity("Monmouth");
-
-        const events = await getEvents("Events in Monmouth, Oregon", await getPaginationIndex());
-        displayEvents(events);
-        initMap(events);
     }
 }

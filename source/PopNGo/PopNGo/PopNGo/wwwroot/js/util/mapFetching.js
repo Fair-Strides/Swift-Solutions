@@ -1,11 +1,16 @@
 import { getNearestCityAndState } from './getNearestCityAndState.js';
 import { getEvents } from '../api/events/getEvents.js';
-import { getPaginationIndex, displayEvents } from '../explore.js';
 
 let lastLocation = null;
 let isWaiting = false;
 
-export function updateLocationAndFetch(map) {
+/**
+ * Purpose: Updates the location and fetches events based on the map's center.
+ * @param {any} map
+ * @param {any} start - Event offset (should be page * items per page)
+ * @returns
+ */
+export function updateLocationAndFetch(map, start) {
     if (isWaiting) return;
     isWaiting = true;
 
@@ -14,9 +19,8 @@ export function updateLocationAndFetch(map) {
     var longitude = center.lng();
     getNearestCityAndState(latitude, longitude).then(async location => {
         if (location && (!lastLocation || location.city !== lastLocation.city || location.state !== lastLocation.state)) {
-            getEvents(`Events in ${location.city}, ${location.state}`, await getPaginationIndex())
+            getEvents(`Events in ${location.city}, ${location.state}`, start)
                 .then(events => {
-                    displayEvents(events);
                     initMap(events);
                     lastLocation = location;
                     console.log(lastLocation, latitude, longitude)
@@ -32,7 +36,7 @@ export function updateLocationAndFetch(map) {
 
 export let debounceTimeout = null;
 
-export function debounceUpdateLocationAndFetch(map) {
+export function debounceUpdateLocationAndFetch(map, start) {
     clearTimeout(debounceTimeout);
-    debounceTimeout = setTimeout(() => updateLocationAndFetch(map), 500);
+    debounceTimeout = setTimeout(() => updateLocationAndFetch(map, start), 500);
 }

@@ -56,7 +56,7 @@ export async function createTags(tagNames) {
  * @param {String} tag - The string tag name
  * @returns {String} The formatted tag name
  */
-function formatTagName(tag) {
+export function formatTagName(tag) {
     return capitalizeFirstLetter(tag).replace(/-|_/g, ' ');
 }
 

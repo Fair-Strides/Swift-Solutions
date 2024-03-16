@@ -1,3 +1,4 @@
+import { validateObject } from "../validation.js";
 // Props object example:
 // {
 //     img: String link,
@@ -8,6 +9,7 @@
 //     favorited: Boolean
 //     tags: Array[String],
 // }
+
 
 /**
  * Takes in the event card element and the event info props and updates the event card element
@@ -82,4 +84,30 @@ export const buildEventCard = (eventCardElement, props) => {
         tagEl.style.backgroundColor = tag.tagBackgroundColor;
         tagsElement.appendChild(tagEl);
     });
+}
+
+
+/**
+ * Takes in event card props and returns a boolean indicating if the props are valid
+ * @param {any} data
+ * @returns {boolean}
+ */
+export function validateBuildEventCardProps(data) {
+    if (data === undefined || data === null) {
+        return false;
+    }
+
+    const schema = {
+        img: x => (typeof x === 'string' || x === undefined || x === null),
+        title: x => typeof x === 'string',
+        date: x => x instanceof Date,
+        city: x => typeof x === 'string',
+        state: x => typeof x === 'string',
+        tags: x => Array.isArray(x),
+        favorited: x => typeof x === 'boolean',
+        onPressFavorite: x => (typeof x === 'function' || x === undefined || x === null),
+        onPressEvent: x => (typeof x === 'function' || x === undefined || x === null),
+    }
+
+    return validateObject(data, schema).length === 0;
 }

@@ -34,17 +34,11 @@ import { toggleNoEventsSection, toggleSearchingEventsSection } from "../../util/
  */
 export async function getEvents(query, start) {
     try {
-        toggleNoEventsSection(false);
-        toggleSearchingEventsSection(true);
         const response = await fetch(`/api/search/events?q=${query}&start=${start}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        toggleSearchingEventsSection(false);
         const data = await response.json();
-        if(!data || data.length === 0) {
-            toggleNoEventsSection(true);
-        }
         return data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);

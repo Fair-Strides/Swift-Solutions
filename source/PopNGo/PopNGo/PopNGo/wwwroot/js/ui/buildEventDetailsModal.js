@@ -1,3 +1,5 @@
+import { validateObject } from '../validation.js';
+
 /**
  * Takes in the event details modal element and the event info props and updates the event card element
  * Props:
@@ -67,4 +69,29 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
 
     // Set the description
     eventDetailsModalElement.querySelector('#modal-event-description').textContent = props.description;
+}
+
+
+/**
+ * Validates the props for the buildEventDetailsModal function, returns true if the props are valid, false otherwise
+ * @param {any} data
+ * @returns {boolean}
+ */
+export function validateBuildEventDetailsModalProps(data) {
+    if (data === undefined || data === null) {
+        return false;
+    }
+
+    const schema = {
+        img: x => (typeof x === 'string' || x === undefined || x === null),
+        title: x => typeof x === 'string',
+        description: x => typeof x === 'string',
+        date: x => x instanceof Date,
+        fullAddress: x => typeof x === 'string',
+        tags: x => Array.isArray(x),
+        favorited: x => typeof x === 'boolean',
+        onPressFavorite: x => (typeof x === 'function' || x === undefined || x === null),
+    }
+
+    return validateObject(data, schema).length === 0;
 }
