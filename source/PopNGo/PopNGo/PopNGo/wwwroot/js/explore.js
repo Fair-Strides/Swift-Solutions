@@ -22,8 +22,8 @@ const pageSize = 10;
 document.addEventListener('DOMContentLoaded', async function () {
     await loadSearchBar().then(
         async () => {
-            setCountry("United States");
-            setState("Oregon");
+            await setCountry("United States");
+            await setState("Oregon");
             setCity("Monmouth");
         }
     );
@@ -213,7 +213,7 @@ async function searchForEvents() {
     toggleSearchingEventsSection(true);
     toggleSearching();
 
-    const events = await getEvents(await getSearchQuery(), getPaginationIndex());
+    const events = await getEvents(getSearchQuery(), getPaginationIndex());
     toggleSearchingEventsSection(false); // Hide the searching events section
     if (!events || events.length === 0) {
         toggleNoEventsSection(true);
