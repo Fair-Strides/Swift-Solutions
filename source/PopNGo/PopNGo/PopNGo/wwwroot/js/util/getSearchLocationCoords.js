@@ -9,7 +9,8 @@ export async function getLocationCoords(country, state, city) {
     try {
         const url = 'https://maps.googleapis.com/maps/api/geocode/json?';
         console.debug(`Looking for location: ${country}, ${state}, ${city}.`)
-        const response = await fetch(`${url}components=country:${country}|administrative_area_level:${state}|locality:${city}&key=${apiKey}`);
+        // const response = await fetch(`${url}&components=country:${country}|administrative_area_level:${state}|locality:${city}&key=${apiKey}`);
+        const response = await fetch(`${url}&address=${city}, ${state}, ${country}&key=${apiKey}`);
 
         const data = await response.json();
 

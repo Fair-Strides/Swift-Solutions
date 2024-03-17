@@ -1,5 +1,7 @@
 import { getCountries, getStates, getCities } from './getSearchLocationOptions.js';
 
+let isSearching = false;
+
 export async function loadSearchBar() {
     // Load up the countries, states, and cities for the search input
     const countries = await getCountries();
@@ -63,13 +65,33 @@ export function toggleSearchingEventsSection(show) {
 }
 
 export async function setCountry(country) {
-    document.getElementById('search-event-country').value = country;
+    let promise = new Promise((resolve, reject) => {
+        document.getElementById('search-event-country').value = country;
+        document.getElementById('search-event-country').dispatchEvent(new Event('change'));
+        resolve();
+    });
+    await promise;
 }
 
 export async function setState(state) {
-    document.getElementById('search-event-state').value = state;
+    let promise = new Promise((resolve, reject) => {
+        document.getElementById('search-event-state').value = state;
+        document.getElementById('search-event-state').dispatchEvent(new Event('change'));
+        resolve();
+    });
+
+    await promise;
+    // document.getElementById('search-event-state').dispatchEvent(new Event('change'));
 }
 
 export async function setCity(city) {
     document.getElementById('search-event-city').value = city;
+}
+
+export function toggleSearching() {
+    isSearching = !isSearching;
+}
+
+export function isCurrentlySearching() {
+    return isSearching;
 }
