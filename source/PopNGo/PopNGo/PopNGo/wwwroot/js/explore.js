@@ -11,7 +11,7 @@ import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
 import { loadMapScript } from './util/loadMapScript.js';
 import { getLocationCoords } from './util/getSearchLocationCoords.js';
 import { loadSearchBar, getSearchQuery, toggleNoEventsSection, toggleSearchingEventsSection,
-        setCity, setCountry, setState } from './util/searchBarEvents.js';
+        setCity, setCountry, setState, toggleSearching } from './util/searchBarEvents.js';
 import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
 
 let map = null;
@@ -20,17 +20,18 @@ const pageSize = 10;
 
 // Fetch event data and display it
 document.addEventListener('DOMContentLoaded', async function () {
-    await loadSearchBar();
+    await loadSearchBar().then(
+        async () => {
+            await setCountry("United States");
+            await setState("Oregon");
+            setCity("Monmouth");
+        }
+    );
 
     document.getElementById('next-page-button').addEventListener('click', nextPage);
     document.getElementById('previous-page-button').addEventListener('click', previousPage);
 
     if (document.getElementById('events-container')) {
-        await setCountry("United States");
-        await setState("Oregon");
-        await setCity("Monmouth");
-
-
         searchForEvents();
     }
 
@@ -210,7 +211,9 @@ async function searchForEvents() {
     console.log("search")
     toggleNoEventsSection(false);
     toggleSearchingEventsSection(true);
-    const events = await getEvents(await getSearchQuery(), getPaginationIndex());
+    toggleSearching();
+
+    const events = await getEvents(getSearchQuery(), getPaginationIndex());
     toggleSearchingEventsSection(false); // Hide the searching events section
     if (!events || events.length === 0) {
         toggleNoEventsSection(true);
@@ -225,6 +228,8 @@ async function searchForEvents() {
     console.debug("Coords: ", mapCoords);
     if(map)
         map.setCenter(mapCoords ?? map.getCenter());
+
+    toggleSearching();
 }
 
 

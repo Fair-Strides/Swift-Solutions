@@ -1,5 +1,6 @@
 import { getNearestCityAndState } from './getNearestCityAndState.js';
 import { getEvents } from '../api/events/getEvents.js';
+import { isCurrentlySearching } from './searchBarEvents.js';
 
 let lastLocation = null;
 let isWaiting = false;
@@ -11,7 +12,7 @@ let isWaiting = false;
  * @returns
  */
 export function updateLocationAndFetch(map, start) {
-    if (isWaiting) return;
+    if (isWaiting || isCurrentlySearching()) return;
     isWaiting = true;
 
     var center = map.getCenter();
