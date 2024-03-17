@@ -16,14 +16,14 @@ namespace PopNGo.Controllers
             _realTimeEventSearchService = realTimeEventSearchService;
             _logger = logger;
         }
-        // GET: api/search/events/?q=Q
+        // GET: api/search/events/?q=Q&start=0
         [HttpGet("search/events")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EventDetail>))]
-        public async Task<ActionResult<IEnumerable<EventDetail>>> SearchMoviesAsync(string q)
+        public async Task<ActionResult<IEnumerable<EventDetail>>> SearchMoviesAsync(string q, int start)
         {
             try
             {
-                IEnumerable<EventDetail> events = await _realTimeEventSearchService.SearchEventAsync(q);
+                IEnumerable<EventDetail> events = await _realTimeEventSearchService.SearchEventAsync(q, start);
                 return Ok(events);
             }
             catch (Exception ex)

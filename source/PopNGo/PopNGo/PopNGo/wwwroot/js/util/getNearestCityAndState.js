@@ -1,4 +1,5 @@
 export async function getNearestCityAndState(lat, lng) {
+    console.log("GET NEAREST CITY AND STATE", lat, lng)
     const getApiKeyResponse = await fetch('/api/MapApi/GetGeolocationApiKey');
     const apiKey = await getApiKeyResponse.text();
 

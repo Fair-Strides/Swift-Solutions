@@ -19,7 +19,8 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #FEAF48;
+    background-color: #3F3F3F;
+    /* background-color: #FEAF48; */
     font-family: 'Outfit', sans-serif;
 }
 
@@ -326,12 +327,6 @@ body {
     border-radius: 20px;
 }
 
-.onhover:hover{
-  filter: invert(58%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
-  transform: scale(1.2);
-  transition: transform 0.3s ease-in-out;
-}
-.onhover:active,
-.onhover:clicked {
-  filter: invert(58%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
+.bg-none {
+  background-color: transparent;
 }

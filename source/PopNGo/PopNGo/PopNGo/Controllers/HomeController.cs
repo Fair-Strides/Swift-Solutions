@@ -18,7 +18,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult ExplorePage()
+    public IActionResult Explore()
     {
         return View();
     }

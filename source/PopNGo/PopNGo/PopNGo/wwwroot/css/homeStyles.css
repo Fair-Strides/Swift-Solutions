@@ -145,6 +145,12 @@ input:-webkit-autofill-selected { */
     border-radius: 10px;
 }
 
+select {
+    background-color: #ff9b58 !important;
+    color: #d35400 !important;
+    border-color: #ffab74;
+}
+
 input::placeholder,
 .form-control::placeholder {
     color: #cd6636;

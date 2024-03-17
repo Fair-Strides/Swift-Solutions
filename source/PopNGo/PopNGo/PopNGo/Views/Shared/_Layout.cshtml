@@ -7,12 +7,17 @@
     <title>@ViewData["Title"] - PopNGo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/map.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/explore.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/homeStyles.css" asp-append-version="true" />
+    @* Components/partial views *@
+    <link rel="stylesheet" href="~/css/components/eventCard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/eventDetailsModal.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/PopNGo.styles.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body>
@@ -59,7 +64,7 @@
     <!-- Add this HTML where you want the navigation bar to appear -->
     <div class="navbar fixed-bottom rounded-pill custom-bottom-navbar">
         <li class="nav-item custom-nav-item">
-            <a class="text-light onhover" asp-area="" asp-controller="Home" asp-action="ExplorePage">
+            <a class="text-light onhover" asp-area="" asp-controller="Home" asp-action="Explore">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="white"
                         d="M23.832 19.641l-6.821-6.821c2.834-5.878-1.45-12.82-8.065-12.82-4.932 0-8.946 4.014-8.946 8.947 0 6.508 6.739 10.798 12.601 8.166l6.879 6.879c1.957.164 4.52-2.326 4.352-4.351zm-14.886-4.721c-3.293 0-5.973-2.68-5.973-5.973s2.68-5.973 5.973-5.973c3.294 0 5.974 2.68 5.974 5.973s-2.68 5.973-5.974 5.973z" />
@@ -90,15 +95,15 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/7ef5bbff13.js" crossorigin="anonymous"></script>
-    <script type="module" src="~/js/eventsAPI.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/util/tags.js" asp-append-version="true"></script>
     <script type="module" src="~/js/util/showUnauthorizedLoginModal.js"></script>
     <script type="module" src="~/js/util/formatStartTime.js"></script>
     <script type="module" src="~/js/util/getNearestCityAndState.js"></script>
     <script type="module" src="~/js/util/loadMapScript.js"></script>
     <script type="module" src="~/js/api/favorites/onClickFavorite.js" asp-append-version="true"></script>
     <script type="module" src="~/js/util/toast.js"></script>
+    <script type="module" src="~/js/util/mapFetching.js"></script>
     <script src="~/js/layout.js"></script>
-    @* <script type="module" src="~/js/map.js" asp-append-version="true"></script> *@
     <!-- Example of including your JavaScript files as modules -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,0 +1,17 @@
+{
+  "name": "popngo_jstests",
+  "version": "1.0.0",
+  "description": "JS Testing for the PopNGo Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-editor-support": "^31.1.2"
+  }
+}

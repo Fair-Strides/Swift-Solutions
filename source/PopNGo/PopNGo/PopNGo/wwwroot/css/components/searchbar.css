@@ -1,0 +1,75 @@
+.search-event {
+    input,
+    input:focus,
+    select,
+    button,
+    > div > label {
+        background-color: #313030 !important;
+        color: #d38100 !important;
+    }
+
+    hr {
+        background-color: #d38100;
+    }
+
+    input,
+    select,
+    label {
+        border-radius: 0px;
+        border-color:transparent;
+    }
+
+    input:active,
+    select:active,
+    input:focus,
+    select:focus,
+    button:active,
+    button:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: #d38100 !important;
+    }
+
+    #search-event-input {
+        border-color: #313030;
+        border-radius: unset;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-right-color: gray;
+        border-right-style: dashed;
+    }
+
+    .text-search-label {
+        color: #ffb641 !important;
+    }
+
+    .form-floating > .form-control:focus, 
+    .form-floating > .form-control:not(:placeholder-shown) {
+        ~ label.text-search-label {
+            opacity: 0.75;
+        }
+    }
+
+    .onhover i {
+        filter: invert(38%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
+    }
+    .onhover :hover {
+        opacity: 0.75;
+        /* filter: invert(58%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%); */
+        /* transform: scale(1.2); Adjust scale as needed */
+        transition: opacity 0.5s ease-in-out; /* Optional: smooth transition */
+    }
+
+    .onhover :active {
+        opacity: 1.0;
+        filter: invert(53%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
+    }
+
+    #no-events-section,
+    #searching-events-section {
+        background-color: rgba(93, 57, 0, 0.5);
+        border-radius: 10px;
+        border-color: #d38100 !important;
+        color: #d38100;
+    }
+}

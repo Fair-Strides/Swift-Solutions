@@ -58,15 +58,12 @@ public class EventApiController : Controller
     {
         foreach (string tag in tags)
         {
-            // if(tag.Length > 255)
-            // {
-                //return BadRequest($"Tag {tag} is too long");
-            // }
-
             // Skip any tags that are too long
             if(tag.Length <= 255) {
                 Models.Tag foundTag = await _tagRepository.FindByName(tag);
-                foundTag ??= (await _tagRepository.CreateNew(tag));
+                if (foundTag != null) {
+                    await _tagRepository.CreateNew(tag);
+                }
             }
         }
 

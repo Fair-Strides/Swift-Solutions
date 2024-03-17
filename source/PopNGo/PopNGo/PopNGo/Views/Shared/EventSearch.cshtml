@@ -1,14 +1,33 @@
 @* Search bar, with results *@
-<div class="col-12 offset-md-2 mx-2">
-    <div class="input-group text-swipe">
-        <input type="text" class="form-control" id="search-event-input" placeholder="Search for..." aria-label="Search for..." aria-describedby="search-event-button">
-        <button class="btn bg-orange text-light rounded-end" id="search-event-button" type="button">Search!</button>
+<div class="col-12 offset-md-2 mx-2 search-event">
+    <div class="input-group text-swipe justify-content-center">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="search-event-input" placeholder="What events are you looking for?" aria-label="Search for..." aria-describedby="search-event-button">
+            <label for="search-event-input" class="input-group-text bg-none text-search-label">What events are you looking for?</label>
+        </div>
+        <label class="input-group-text text-light"> in </label>
+        <div class="form-floating">
+            <select class="form-select" id="search-event-country">
+            </select>
+            <label for="search-event-country" class="input-group-text bg-none text-search-label">Country</label>
+        </div>
+        <div class="form-floating">
+            <select class="form-select" id="search-event-state">
+            </select>
+            <label for="search-event-country" class="input-group-text bg-none text-search-label">State / Province</label>
+        </div>
+        <div class="form-floating">
+            <select class="form-select" id="search-event-city">
+            </select>
+            <label for="search-event-country" class="input-group-text bg-none text-search-label">City</label>
+        </div>
+        <button class="btn text-light rounded-end onhover" id="search-event-button" type="button"><i class="fas fa-search"></i></button>
     </div>
     <hr/>
-    <div id="no-events-section" class="rounded-pill bg-orange text-light text-center py-2 hidden">
+    <div id="no-events-section" class="rounded-pill border text-center py-2 hidden">
         <p class="notification">No events found</p>
     </div>
-    <div id="searching-events-section" class="rounded-pill bg-orange text-light text-center py-2 hidden">
+    <div id="searching-events-section" class="rounded-pill border text-center py-2 hidden">
         <p class="notification">Searching...</p>
     </div>
 </div>
