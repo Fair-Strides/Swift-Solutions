@@ -28,8 +28,6 @@ export async function loadSearchBar() {
 
     // Whenever the state changes, repopulate the cities
     stateSelect.addEventListener('change', async () => await updateCities());
-
-    countrySelect.dispatchEvent(new Event('change'));
 }
 
 /**
