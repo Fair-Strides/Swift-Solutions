@@ -1,0 +1,29 @@
+@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Admin Hub";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    @* Layout = "_Layout.cshtml"; *@
+}
+
+<div class="container">
+    <partial name="../../Identity/Pages/Account/_StatusMessage" model="Model.StatusMessage" />
+    <div class="row">
+        <div class="col-md-12 text-light">
+            <h2>Welcome</h2>
+            <p>This is Pop-n-Go's Administation Hub, home to any and all controls necessary to administrate the site and its operations.</p>
+            <p>On the left side, you can access the various administation sections to see what operations can be performed.</p>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <h2>Not seeing what you want?</h2>
+            <p>If there's functionality that you can't seem to find, please let the web developers know by emailing <a href="mailto:popngo.wou@gmail.com">popngo.wou@gmail.com</a>.</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

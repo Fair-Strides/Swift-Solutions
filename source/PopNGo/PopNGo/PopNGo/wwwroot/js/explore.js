@@ -157,6 +157,7 @@ export async function displayEvents(events) {
             favorited: await getEventIsFavorited(eventInfo.eventID),
             onPressFavorite: () => onPressFavorite(eventApiBody, eventCardProps.favorited),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
+            
         }
         if (validateBuildEventCardProps(eventCardProps)) {
             buildEventCard(newEventCard, eventCardProps);
@@ -266,6 +267,8 @@ window.initMap = async function (events) {
             marker.addListener('click', async function () {
                 onClickDetailsAsync(eventInfo);
             });
+
+            google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
         }
     });
 }

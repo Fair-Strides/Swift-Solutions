@@ -11,7 +11,8 @@ let isWaiting = false;
  * @param {any} start - Event offset (should be page * items per page)
  * @returns
  */
-export function updateLocationAndFetch(map, start) {
+
+export function updateLocationAndFetch(map, start = 0) {
     if (isWaiting || isCurrentlySearching()) return;
     isWaiting = true;
 

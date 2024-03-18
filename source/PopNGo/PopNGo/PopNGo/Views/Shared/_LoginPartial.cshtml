@@ -6,12 +6,20 @@
 <ul class="navbar-nav navbar-expand-sm flex-grow">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item custom-nav-item">
+            <a class="nav-link text-light onhover" asp-area="Admin" asp-page="/Index" title="Manage">Admin <i class="fa-solid fa-toolbox"></i></a>
+        </li>
+    }
+    <li class="nav-item custom-nav-item">
+        @* <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a> *@
+        @* <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.FindByNameAsync(User.Identity?.Name).Result.FirstName @UserManager.FindByNameAsync(User.Identity?.Name).Result.LastName</a> *@
+        <a class="nav-link text-light onhover" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item custom-nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-light">Logout</button>
+            <button  type="submit" class="nav-link btn btn-link text-light onhover">Logout</button>
         </form>
     </li>
 }
