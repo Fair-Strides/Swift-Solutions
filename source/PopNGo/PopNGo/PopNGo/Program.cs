@@ -139,20 +139,27 @@ public class Program
 
     public static async Task SeedData(WebApplication app) {
         using (var scope = app.Services.CreateScope()) {
+            PopNGoDB _popNGoDBContext = scope.ServiceProvider.GetRequiredService<PopNGoDB>();
             UserManager<PopNGoUser> userSeeder = scope.ServiceProvider.GetRequiredService<UserManager<PopNGoUser>>();
             RoleManager<IdentityRole> roleSeeder = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             IConfiguration configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             var userExists = await userSeeder.FindByNameAsync("admin@popngo.com");
             if (userExists == null) {
-                var user = new PopNGoUser {
-                    UserName = "admin@popngo.com",
-                    Email = "popngo.wou@gmail.com",
-                    EmailConfirmed = true,
-                    FirstName = "The",
-                    LastName = "Admin"
-                };
+                var user = Activator.CreateInstance<PopNGoUser>();
+                user.UserName = "admin@popngo.com";
+                user.Email = "popngo.wou@gmail.com";
+                user.EmailConfirmed = true;
+                user.FirstName = "The";
+                user.LastName = "Admin";
+
                 await userSeeder.CreateAsync(user, configuration["AdminPW"]);
+                PgUser newUser = new()
+                {
+                    AspnetuserId = user.Id
+                };
+                _popNGoDBContext.PgUsers.Add(newUser);
+                await _popNGoDBContext.SaveChangesAsync();
             }
 
             var roleExists = await roleSeeder.RoleExistsAsync("Admin");
