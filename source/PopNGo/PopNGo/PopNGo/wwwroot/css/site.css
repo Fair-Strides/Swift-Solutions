@@ -333,14 +333,17 @@ body {
 
 .custom-nav-item {
   
-  a.onhover:hover {
+  a.onhover:hover,
+  button.onhover:hover {
     filter: invert(58%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
     transform: scale(1.2); /* Adjust scale as needed */
     transition: transform 0.3s ease-in-out; /* Optional: smooth transition */
   }
 
   a.onhover:active,
-  a.onhover:focus {
+  a.onhover:focus,
+  button.onhover:active,
+  button.onhover:focus {
     filter: invert(58%) sepia(62%) saturate(3783%) hue-rotate(14deg) brightness(92%) contrast(89%);
   }
 }
