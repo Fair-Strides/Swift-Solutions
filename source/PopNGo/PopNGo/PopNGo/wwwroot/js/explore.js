@@ -57,6 +57,7 @@ async function onClickDetailsAsync(eventInfo) {
         EventName: eventInfo.eventName || "No name available",
         EventDescription: eventInfo.eventDescription || "No description available",
         EventLocation: eventInfo.full_Address || "No location available",
+        EventImage: eventInfo.eventThumbnail
     };
 
     const eventDetailsModalProps = {

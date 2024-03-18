@@ -13,10 +13,17 @@ namespace PopNGo.DAL.Concrete
             _event = context.Events;
         }
 
-        public void AddEvent(string EventId, DateTime EventDate, string EventName, string EventDescription, string EventLocation)
+        public void AddEvent(string EventId, DateTime EventDate, string EventName, string EventDescription, string EventLocation, string EventImage)
         {
             ValidateEventParameters(EventId, EventDate, EventName, EventDescription, EventLocation);
-            var newEvent = new Event { ApiEventId = EventId, EventDate = EventDate, EventName = EventName, EventDescription = EventDescription, EventLocation = EventLocation };
+            var newEvent = new Event { 
+                ApiEventId = EventId, 
+                EventDate = EventDate, 
+                EventName = EventName, 
+                EventDescription = EventDescription, 
+                EventLocation = EventLocation,
+                EventImage = EventImage
+            };
             AddOrUpdate(newEvent);
         }
 

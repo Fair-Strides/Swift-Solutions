@@ -33,6 +33,9 @@ public partial class Event
     [StringLength(255)]
     public string EventLocation { get; set; }
 
+    [StringLength(255)]
+    public string EventImage { get; set; }
+
     [InverseProperty("Event")]
     public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
 

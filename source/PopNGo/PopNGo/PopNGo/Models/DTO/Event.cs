@@ -12,6 +12,8 @@ namespace PopNGo.Models.DTO
         public string EventName { get; set; }
         public string EventDescription { get; set; }
         public string EventLocation { get; set; }
+
+        public string EventImage { get; set; }
     }
 }
 
@@ -28,7 +30,8 @@ namespace PopNGo.ExtensionMethods
                 EventDate = Event.EventDate,
                 EventDescription = Event.EventDescription,
                 EventLocation = Event.EventLocation,
-                EventName = Event.EventName
+                EventName = Event.EventName,
+                EventImage = Event.EventImage
             };
         }
     }
