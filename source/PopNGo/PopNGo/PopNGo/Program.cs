@@ -72,16 +72,18 @@ public class Program
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<PopNGoUser>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-            options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
-                new TokenProviderDescriptor(
-                typeof(CustomEmailConfirmationTokenProvider<PopNGoUser>)));
-            options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
-            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
-        })
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
+                    new TokenProviderDescriptor(
+                    typeof(CustomEmailConfirmationTokenProvider<PopNGoUser>)));
+                options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+            })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        
         builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<PopNGoUser>>();
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.AddHostedService<TimedEmailService>();
@@ -95,6 +97,9 @@ public class Program
         });
 
         var app = builder.Build();
+
+        SeedData(app).Wait();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -130,5 +135,39 @@ public class Program
         app.MapRazorPages();
 
         app.Run();
+    }
+
+    public static async Task SeedData(WebApplication app) {
+        using (var scope = app.Services.CreateScope()) {
+            UserManager<PopNGoUser> userSeeder = scope.ServiceProvider.GetRequiredService<UserManager<PopNGoUser>>();
+            RoleManager<IdentityRole> roleSeeder = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            IConfiguration configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+
+            var userExists = await userSeeder.FindByNameAsync("admin@popngo.com");
+            if (userExists == null) {
+                var user = new PopNGoUser {
+                    UserName = "admin@popngo.com",
+                    Email = "popngo.wou@gmail.com",
+                    EmailConfirmed = true,
+                    FirstName = "The",
+                    LastName = "Admin"
+                };
+                await userSeeder.CreateAsync(user, configuration["AdminPW"]);
+            }
+
+            var roleExists = await roleSeeder.RoleExistsAsync("Admin");
+            if (!roleExists) {
+                await roleSeeder.CreateAsync(new IdentityRole("Admin"));
+            }
+            var roleUserExists = await roleSeeder.RoleExistsAsync("User");
+            if (!roleUserExists) {
+                await roleSeeder.CreateAsync(new IdentityRole("User"));
+            }
+
+            var adminUser = await userSeeder.FindByNameAsync("admin@popngo.com");
+            if (!await userSeeder.IsInRoleAsync(adminUser, "Admin")) {
+                await userSeeder.AddToRoleAsync(adminUser, "Admin");
+            }
+        }
     }
 }

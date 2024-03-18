@@ -1,0 +1,69 @@
+@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Users";
+    ViewData["ActivePage"] = ManageNavPages.Users;
+    @* Layout = "_Layout.cshtml"; *@
+}
+
+<partial name="../../../Views/Shared/_AdminUserDetailsModal" />
+
+<div class="container">
+    <partial name="../../Identity/Pages/Account/_StatusMessage" model="Model.StatusMessage" />
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Instructions</h2>
+            <p>Manage users here.</p>
+        </div>
+        <hr />
+        <div class="col-md-12">
+            <h2>Users</h2>
+            <table class="table" name="admin-users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Notification Email</th>
+                        <th>Roles</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-light">
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.NotificationEmail</td>
+                            <td>@string.Join(", ", user.Roles)</td>
+                        </tr>
+                        <tr data-id="@user.Id">
+                            <td>
+                                @* <button class="btn btn-primary" type="button" id="resend-verification-email">Send Verification Email</button> *@
+                                <button class="btn btn-outline-primary" type="button" id="resend-verification-email">Send Verification Email</button>
+                            </td>
+                            <td>
+                                @* <button class="btn btn-primary" type="button" id="send-password-reset">Send Password Reset</button> *@
+                                <button class="btn btn-outline-primary" type="button" id="send-password-reset">Send Password Reset</button>
+                            </td>
+                            <td>
+                                @* <button class="btn btn-success" type="button" id="confirm-account">Confirm Account</button> *@
+                                <button class="btn btn-outline-success" type="button" id="confirm-account">Confirm Account</button>
+                            </td>
+                            <td>
+                                @* <button class="btn btn-warning" type="button" id="edit-user">Edit Account</button>
+                                <button class="btn btn-danger" type="button" id="delete-user">Delete Account</button> *@
+                                <button class="btn btn-outline-warning" type="button" id="edit-user">Edit Account</button>
+                                <button class="btn btn-outline-danger" type="button" id="delete-user">Delete Account</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/admin.js"></script>
+}

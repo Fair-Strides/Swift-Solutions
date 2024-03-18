@@ -1,0 +1,32 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h1 class="text-light">Admin Hub</h1>
+
+<div class="admin-section">
+    <h3 class="text-light text-muted">@ViewData["Title"]</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-2 spacer">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
