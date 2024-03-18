@@ -26,15 +26,43 @@ namespace PopNGo.Areas.Admin.Pages
             _userManager = userManager;
         }
 
+        [BindProperty]
+        public List<UserModel> Users { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
+
+        public class UserModel
+        {
+            public string UserName { get; set; }
+            public string Email { get; set; }
+            public string NotificationEmail { get; set; }
+            public List<string> Roles { get; set; }
+            public string Id { get; set; }
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
-            StatusMessage = "You are authorized to view this page.";
+            StatusMessage = "You are not authorized to view this page.";
             
-            if(!User.Identity.IsAuthenticated)
+            if(User.Identity.IsAuthenticated)
             {
-                StatusMessage = "You are not authorized to view this page.";
+                StatusMessage = "";
+
+                Users = new List<UserModel>();
+                foreach (var user in _userManager.Users)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    Users.Add(new UserModel
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        NotificationEmail = user.NotificationEmail,
+                        Roles = roles.ToList(),
+                        Id = user.Id
+                    });
+                }            
+
             }
 
             return Page();

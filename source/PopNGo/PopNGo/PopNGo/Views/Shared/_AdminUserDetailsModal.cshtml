@@ -1,0 +1,75 @@
+<div id="admin-user-details-modal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">User Details</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <h3 class="col-12">User Information</h3>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="user-details-first-name">First Name</label>
+                            <input type="text" class="form-control" id="user-details-first-name">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="user-details-last-name">Last Name</label>
+                            <input type="text" class="form-control" id="user-details-last-name">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="user-details-username">Username</label>
+                            <input type="text" class="form-control" id="user-details-username">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <h3 class="col-12">Contact Information</h3>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="user-details-email">Email</label>
+                            <input type="text" class="form-control" id="user-details-email">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="user-details-notification-email">Notification Email</label>
+                            <input type="text" class="form-control" id="user-details-notification-email">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <h3 class="col-12">Notification Frequency</h3>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="user-details-week-before">
+                            <label for="user-details-week-before" class="form-check">1 week before</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="user-details-day-before">
+                            <label for="user-details-day-before" class="form-check">1 day before</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="user-details-day-of">
+                            <label for="user-details-day-of" class="form-check">Day of</label>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row offset-md-4 col-md-4 mt-3">
+                    <button class="btn btn-primary" id="user-details-save" data-bs-dismiss="modal" type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

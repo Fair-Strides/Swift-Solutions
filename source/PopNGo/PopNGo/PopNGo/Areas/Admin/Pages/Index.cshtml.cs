@@ -30,8 +30,6 @@ namespace PopNGo.Areas.Admin.Pages
         public string StatusMessage { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            StatusMessage = "You are authorized to view this page.";
-            
             if(!User.Identity.IsAuthenticated)
             {
                 StatusMessage = "You are not authorized to view this page.";

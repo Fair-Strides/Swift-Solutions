@@ -1,0 +1,79 @@
+.navigation {
+    height: 25vh;
+    min-height: 25vh;
+}
+
+.spacer {
+    height: 100vh;
+    border-right-style: double;
+    border-right-color: #d38100;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: #d38100;
+}
+
+th {
+    color: #d38100;
+}
+
+button {
+    font-size: 0.7rem !important
+}
+
+button:active,
+button:focus {
+    box-shadow: 0 0 0 0.1rem #dc9b4a, 0 0 0 0.2rem #ff6800 !important;
+}
+
+table tr:nth-child(odd) {
+    border-bottom-style: hidden;
+}
+
+table tr:nth-child(even) {
+    border-bottom-color: #d38100;
+}
+
+#admin-user-details-modal {
+    div.modal-content {
+        background-color: #313030;
+        color: #d9d9d9;
+
+        @media (max-width: 768px) {
+            width: 80%;        
+        }
+
+        @media (min-width: 992px) {
+            width: 800px;
+        }
+    }
+
+    hr {
+        background-color: #d38100;
+    }
+
+    input:active,
+    input:focus,
+    button:focus,
+    button:active {
+        box-shadow: 0 0 0 0.1rem #dc9b4a, 0 0 0 0.2rem #ff6800 !important;
+    }
+    
+    input:not([type="checkbox"]),
+    input:not([type="checkbox"]):focus,
+    button,
+    > div > label {
+        background-color: #313030 !important;
+        color: #d38100 !important;
+    }
+
+    button {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+        color: #313030 !important;
+        background-color: #d38100 !important;
+        
+    }
+}

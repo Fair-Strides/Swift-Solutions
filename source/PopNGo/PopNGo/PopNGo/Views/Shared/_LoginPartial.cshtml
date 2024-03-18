@@ -18,9 +18,10 @@
         <a class="nav-link text-light onhover" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
     </li>
     <li class="nav-item custom-nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        @* <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button  type="submit" class="nav-link btn btn-link text-light onhover">Logout</button>
-        </form>
+        </form> *@
+        <a class="nav-link text-light onhover" asp-area="Identity" asp-page="/Account/Logout" title="Logout">Logout</a>
     </li>
 }
 else
