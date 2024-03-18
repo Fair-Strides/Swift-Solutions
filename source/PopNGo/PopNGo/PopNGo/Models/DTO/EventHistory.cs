@@ -29,11 +29,7 @@ namespace PopNGo.ExtensionMethods
                 UserId = eventHistory.UserId,
                 ViewedDate = eventHistory.ViewedDate,
                 EventId = eventHistory.EventId,
-                // EventDate = eventHistory.EventDate,
-                // EventDescription = eventHistory.EventDescription,
-                // EventLocation = eventHistory.EventLocation,
-                // EventName = eventHistory.EventName
-    };
+            };
         }
     }
 }

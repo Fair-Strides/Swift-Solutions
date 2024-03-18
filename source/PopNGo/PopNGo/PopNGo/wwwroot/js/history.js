@@ -1,4 +1,5 @@
-import { buildEventCard } from "./ui/buildEventCard.js";
+import { buildEventCard, validateBuildEventCardProps } from "./ui/buildEventCard.js";
+import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
 import { formatTags } from "./util/tags.js";
 import { getEventIsFavorited } from "./api/favorites/getEventIsFavorited.js";
 import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
@@ -65,49 +66,80 @@ document.addEventListener('DOMContentLoaded', function () {
                 EventName: event.eventName || "No name available",
                 EventDescription: event.eventDescription || "No description available",
                 EventLocation: event.eventLocation || "No location available",
+                EventImage: event.eventThumbnail,
             };
 
             let eventProps = {
-                img: event.eventThumbnail, // This property doesn't exist in the provided JSON object
+                img: event.eventImage,
                 title: event.eventName,
                 date: new Date(event.eventDate),
-                city: event.eventLocation, // This is the full address in my data model
-                state: "", // State is not provided in the JSON object
+                city: event.eventLocation.split(',')[1],
+                state: event.eventLocation.split(',')[2],
                 tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
                 favorited: await getEventIsFavorited(event.apiEventID), // Assuming id is the eventID
-                onPressEvent: () => {
-                    // define what should happen when the event button is clicked
-                },
+                onPressEvent: () => onClickDetailsAsync(event),
                 onPressFavorite: () => onPressFavorite(eventApiBody, eventProps.favorited)
             };
             
             // Clone the template
             const eventCard = template.content.cloneNode(true);
 
-            // Build the event card
-            buildEventCard(eventCard, eventProps);
-
-            // Append the event card to the container
-            console.log(eventProps)
-            container.appendChild(eventCard);
-        }
-    }
-
-    // Fetch event data and display it
-    async function fetchEvents() {
-        const response = await fetch("/api/EventHistoryApi/EventHistory");
-        if (!response.ok) {
-            if (response.status === 401) {
-                document.getElementById("login-prompt").style.display = "block";
-                throw new Error('Unauthorized');
-            } else if (response.status === 404) {
-                document.getElementById("no-history-message").style.display = "block";
-                throw new Error('No history found');
+            if (validateBuildEventCardProps(eventProps)) {
+                buildEventCard(eventCard, eventProps);
+                container.appendChild(eventCard);
             }
-            throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        console.log(data);
-        return data;
     }
+
 });
+
+// Fetch event data and display it
+async function fetchEvents() {
+    const response = await fetch("/api/EventHistoryApi/EventHistory");
+    if (!response.ok) {
+        if (response.status === 401) {
+            document.getElementById("login-prompt").style.display = "block";
+            throw new Error('Unauthorized');
+        } else if (response.status === 404) {
+            document.getElementById("no-history-message").style.display = "block";
+            throw new Error('No history found');
+        }
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+}
+
+/**
+ * Opens the event details modal
+ * @param {any} eventInfo
+ */
+async function onClickDetailsAsync(eventInfo) {
+    console.log("event")
+    let eventApiBody = {
+        ApiEventID: eventInfo.apiEventID || "No ID available",
+        EventDate: eventInfo.eventDate || "No date available",
+        EventName: eventInfo.eventName || "No name available",
+        EventDescription: eventInfo.eventDescription || "No description available",
+        EventLocation: eventInfo.eventLocation|| "No location available",
+        EventImage: eventInfo.eventImage
+    };
+
+    const eventDetailsModalProps = {
+        img: eventInfo.eventImage,
+        title: eventInfo.eventName,
+        description: (eventInfo.eventDescription ?? 'No description') + '...',
+        date: new Date(eventInfo.eventDate),
+        fullAddress: eventInfo.eventLocation,
+        tags: [], // TODO: tags should be stored on event
+        favorited: await getEventIsFavorited(eventInfo.apiEventID),
+        onPressFavorite: () => onPressFavorite(eventApiBody, eventDetailsModalProps.favorited)
+    }
+
+    if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
+        buildEventDetailsModal(document.getElementById('event-details-modal'), eventDetailsModalProps);
+        const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
+        modal.show();
+    };
+}
