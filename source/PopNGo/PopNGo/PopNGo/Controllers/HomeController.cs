@@ -23,7 +23,7 @@ public class HomeController : Controller
         return View();
     }
     
-    public IActionResult HistoryPage()
+    public IActionResult History()
     {
         return View();
     }

@@ -58,7 +58,9 @@ export const buildEventCard = (eventCardElement, props) => {
     eventCardElement.querySelector('#month').textContent = props.date.toLocaleString('default', { month: 'short' });
 
     // Set the location
-    eventCardElement.querySelector('#event-card-location').textContent = `${props.city}, ${props.state}`;
+    eventCardElement.querySelector('#event-card-location').textContent = props.state
+    ? `${props.city}, ${props.state}` // If state is provided, display the city and state
+    : props.city; // If state is not provided, only display the city
 
     // Set the favorite status
     const bookmarkContainer = eventCardElement.querySelector('#event-card-bookmark-container');
