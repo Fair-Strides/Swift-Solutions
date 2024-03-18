@@ -18,8 +18,10 @@ public partial class Tag
     public string Name { get; set; }
 
     [Required]
+    [StringLength(255)]
     public string BackgroundColor { get; set; }
 
     [Required]
+    [StringLength(255)]
     public string TextColor { get; set; }
 }
