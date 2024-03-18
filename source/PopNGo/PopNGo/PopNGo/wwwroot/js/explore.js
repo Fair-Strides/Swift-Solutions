@@ -13,20 +13,42 @@ import { getLocationCoords } from './util/getSearchLocationCoords.js';
 import { loadSearchBar, getSearchQuery, toggleNoEventsSection, toggleSearchingEventsSection,
         setCity, setCountry, setState, toggleSearching } from './util/searchBarEvents.js';
 import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
+import { getNearestCityAndState } from './util/getNearestCityAndState.js';
 
 let map = null;
 let page = 0;
 const pageSize = 10;
 
 // Fetch event data and display it
-document.addEventListener('DOMContentLoaded', async function () {
-    await loadSearchBar().then(
-        async () => {
-            await setCountry("United States");
-            await setState("Oregon");
-            setCity("Monmouth");
-        }
-    );
+// Call getLocation when the script is loaded
+document.addEventListener("DOMContentLoaded", function (event) {
+    getLocation();
+});
+
+async function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function (position) {
+            const { city, state } = await getNearestCityAndState(position.coords.latitude, position.coords.longitude);
+            await loadSearchBarAndEvents(city, state);
+        }, async function (error) {
+            if (error.code === error.PERMISSION_DENIED) {
+                const defaultCity = "Las Vegas";
+                const defaultState = "Nevada";
+
+                await loadSearchBarAndEvents(defaultCity, defaultState);
+            }
+        });
+    } else {
+
+    }
+}
+
+async function loadSearchBarAndEvents(city, state) {
+    await loadSearchBar().then(async () => {
+        await setCountry("United States");
+        await setState(state);
+        setCity(city);
+    });
 
     document.getElementById('next-page-button').addEventListener('click', nextPage);
     document.getElementById('previous-page-button').addEventListener('click', previousPage);
@@ -42,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             await searchForEvents();
         }
     });
-}, { once: true });
+}
 
 /**
  * Takes in an event info object and adds it to the history via http and opens the event details modal
@@ -275,3 +297,86 @@ window.onload = async function () {
         loadMapScript();
     }
 }
+
+
+//async function getLocation() {
+//    const x = document.getElementById("demo");
+
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(
+//            async (position) => {
+//                x.innerHTML = "Latitude: " + position.coords.latitude +
+//                    "<br>Longitude: " + position.coords.longitude;
+
+//                try {
+//                    const { city, state } = await getNearestCityAndState(position.coords.latitude, position.coords.longitude);
+//                    console.log("the city:", city);
+//                    console.log("the state:", state);
+
+//                    // Update input fields with retrieved city and state
+//                    setCity(city);
+//                    setState(state);
+
+//                    // Update the city input field
+//                    // Run the event search function after updating the input fields
+//                    await searchForEvents();
+
+//                    // Show pop-up message
+//                    alert('Geolocation retrieved successfully!');
+//                } catch (error) {
+//                    console.error('Error fetching city and state:', error);
+//                    // Handle error gracefully
+//                    alert('Error fetching city and state. Please try again later.');
+//                }
+//            },
+//            (error) => {
+//                handleGeolocationError(error);
+//            }
+//        );
+//    } else {
+//        x.innerHTML = "Geolocation is not supported by this browser.";
+//        // Handle unsupported browser scenario
+//        alert('Geolocation is not supported by this browser.');
+//    }
+//}
+
+//function handleGeolocationError(error) {
+//    // Handle geolocation error
+//    switch (error.code) {
+//        case error.PERMISSION_DENIED:
+//            alert("User denied the request for geolocation.");
+//            break;
+//        case error.POSITION_UNAVAILABLE:
+//            alert("Location information is unavailable.");
+//            break;
+//        case error.TIMEOUT:
+//            alert("The request to get user location timed out.");
+//            break;
+//        case error.UNKNOWN_ERROR:
+//            alert("An unknown error occurred.");
+//            break;
+//    }
+//}
+
+//// Call getLocation function when DOM content is loaded
+//document.addEventListener('DOMContentLoaded', getLocation);
+
+//const x = document.getElementById("demo");
+
+//// Call getLocation when the script is loaded
+//document.addEventListener("DOMContentLoaded", function (event) {
+//    getLocation();
+//});
+
+//function getLocation() {
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(showPosition);
+//    } else {
+//        x.innerHTML = "Geolocation is not supported by this browser.";
+//    }
+//}
+
+//function showPosition(position) {
+//    x.innerHTML = "Latitude: " + position.coords.latitude +
+//        "<br>Longitude: " + position.coords.longitude;
+//}
