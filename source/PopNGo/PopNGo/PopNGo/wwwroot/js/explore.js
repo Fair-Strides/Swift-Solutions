@@ -299,7 +299,7 @@ window.onload = async function () {
     }
 }
 
-// Save Location, Remove Location, and Use Location
+// Save Location, Remove Location, Use Location
 let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 function displaySavedLocations() {
     const savedLocationsContainer = document.getElementById('saved-locations-container');
