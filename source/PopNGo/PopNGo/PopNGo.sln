@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PopNGo", "PopNGo\PopNGo.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PopNGo_Tests", "PopNGo_Tests\PopNGo_Tests.csproj", "{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopNGo_JSTests", "PopNGo_JSTests\PopNGo_JSTests.esproj", "{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PopNGo_JSTests", "PopNGo_JSTests\PopNGo_JSTests.esproj", "{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +20,6 @@ Global
 		{52078656-8F72-42B1-B7DC-53BFF6408D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52078656-8F72-42B1-B7DC-53BFF6408D78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3B5CFF6-B8C8-4B65-9575-01AF4ECED42E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2128BD31-9DF5-45A6-836D-DF7E7446FDC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48E6CFB3-107D-4D2E-BC90-AE4556A029BC}
 	EndGlobalSection
 EndGlobal
