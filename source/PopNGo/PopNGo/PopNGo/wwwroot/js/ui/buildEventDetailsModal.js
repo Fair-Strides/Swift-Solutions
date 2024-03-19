@@ -1,30 +1,5 @@
 import { validateObject } from '../validation.js';
 
-/**
- * Takes in the event details modal element and the event info props and updates the event card element
- * Props:
- * {
- *    img: String link,
- *    title: String,
- *    description: String,
- *    date: DateTime,
- *    fullAddress: String,
- *    tags: Array[Tag],
- *    favorited: Boolean
- *    onPressFavorite: Function
- * }
- * 
- Tag: {
-    tagName: String,
-    tagTextColor: String,
-    tagBackgroundColor: String,
- }
-
- * @function buildEventDetailsModal
- * @param {HTMLElement} eventDetailElement 
- * @param {Object} props 
- */
-
 export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
     // Set the image
     if (props.img === null || props.img === undefined) {
@@ -69,8 +44,36 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
 
     // Set the description
     eventDetailsModalElement.querySelector('#modal-event-description').textContent = props.description;
-}
 
+    // Add button to add event to Google Calendar
+    const addToCalendarButtonContainer = eventDetailsModalElement.querySelector('#add-to-calendar-btn');
+    addToCalendarButtonContainer.innerHTML = ''; // Remove existing button to prevent duplicates
+
+    const addToCalendarButton = document.createElement('button');
+    addToCalendarButton.textContent = 'Add Event To Google Calendar';
+    addToCalendarButton.className = 'btn btn-warning'; // Add Bootstrap classes
+    addToCalendarButton.addEventListener('click', () => {
+        const eventTitle = props.title;
+        const eventDate = props.date;
+        const eventDescription = props.description;
+
+        const startDateTime = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
+        const endDateTime = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
+
+        const calendarUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(eventTitle) +
+            '&dates=' + encodeURIComponent(startDateTime) + '/' + encodeURIComponent(endDateTime) +
+            '&details=' + encodeURIComponent(eventDescription) +
+            '&location=&sf=true&output=xml';
+        window.open(calendarUrl, '_blank');
+    });
+    addToCalendarButtonContainer.appendChild(addToCalendarButton);
+
+    if (!addToCalendarButtonContainer.querySelector('button')) {
+        addToCalendarButtonContainer.appendChild(addToCalendarButton);
+    } else {
+        console.error("Button already exists in the container.");
+    }
+}
 
 /**
  * Validates the props for the buildEventDetailsModal function, returns true if the props are valid, false otherwise
