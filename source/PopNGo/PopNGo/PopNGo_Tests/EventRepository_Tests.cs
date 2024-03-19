@@ -47,12 +47,13 @@ public class EventRepositoryTests
         var eventName = "Test Event";
         var eventDescription = "Test Description";
         var eventLocation = "Test Location";
+        var eventImage = "";
 
         var events = new List<Event>();
         _mockContext.Setup(m => m.Update(It.IsAny<Event>())).Callback<Event>(e => events.Add(e));
 
         // Act
-        _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation);
+        _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage);
 
         // Assert
         Assert.That(events.Count, Is.EqualTo(1));
@@ -62,6 +63,7 @@ public class EventRepositoryTests
         Assert.That(addedEvent.EventName, Is.EqualTo(eventName));
         Assert.That(addedEvent.EventDescription, Is.EqualTo(eventDescription));
         Assert.That(addedEvent.EventLocation, Is.EqualTo(eventLocation));
+        Assert.That(addedEvent.EventImage, Is.EqualTo(eventImage));
     }
 
     [Test]
@@ -73,9 +75,10 @@ public class EventRepositoryTests
         var eventName = "Test Event";
         var eventDescription = "Test Description";
         var eventLocation = "Test Location";
+        var eventImage = "";
 
         // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation));
+        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage));
 
         // Assert
         Assert.That(ex.Message, Is.EqualTo("EventId cannot be null or empty (Parameter 'eventId')"));
@@ -90,9 +93,10 @@ public class EventRepositoryTests
         var eventName = "Test Event";
         var eventDescription = "Test Description";
         var eventLocation = "Test Location";
+        var eventImage = "";
 
         // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation));
+        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage));
 
         // Assert
         Assert.That(ex.Message, Is.EqualTo("EventDate cannot be default (Parameter 'eventDate')"));
@@ -107,9 +111,10 @@ public class EventRepositoryTests
         var eventName = "";
         var eventDescription = "Test Description";
         var eventLocation = "Test Location";
+        var eventImage = "";
 
         // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation));
+        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage));
 
         // Assert
         Assert.That(ex.Message, Is.EqualTo("EventName cannot be null or empty (Parameter 'eventName')"));
@@ -124,9 +129,10 @@ public class EventRepositoryTests
         var eventName = "Test Event";
         var eventDescription = "";
         var eventLocation = "Test Location";
+        var eventImage = "";
 
         // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation));
+        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage));
 
         // Assert
         Assert.That(ex.Message, Is.EqualTo("EventDescription cannot be null or empty (Parameter 'eventDescription')"));
@@ -141,9 +147,10 @@ public class EventRepositoryTests
         var eventName = "Test Event";
         var eventDescription = "Test Description";
         var eventLocation = "";
+        var eventImage = "";
 
         // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation));
+        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventId, eventDate, eventName, eventDescription, eventLocation, eventImage));
 
         // Assert
         Assert.That(ex.Message, Is.EqualTo("EventLocation cannot be null or empty (Parameter 'eventLocation')"));

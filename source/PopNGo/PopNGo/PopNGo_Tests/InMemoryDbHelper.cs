@@ -12,7 +12,6 @@ namespace PopNGo_Tests
     {
         public  DbPersistence _persistOption;
         private string _seedFilePath;
-        private string _upFilePath;
         private DbConnection _dbConnection;
         private DbContextOptions<TContext> _dbContextOptions;
 
@@ -21,11 +20,10 @@ namespace PopNGo_Tests
         /// </summary>
         /// <param name="seedFilePath">Path to a seed .sql file, or null if you don't want to seed the db</param>
         /// <param name="persistOption">Choose your model: a new db per test, or a shared instance</param>
-        public InMemoryDbHelper( string seedFilePath, string upFilePath, DbPersistence persistOption ) 
+        public InMemoryDbHelper( string seedFilePath, DbPersistence persistOption ) 
         {
             _persistOption= persistOption;
             _seedFilePath= seedFilePath;
-            _upFilePath= upFilePath;
             Initialize();
         }
 
@@ -46,13 +44,6 @@ namespace PopNGo_Tests
             if (!context.Database.EnsureCreated())
             {
                 Debug.WriteLine("Entity Framework could not ensure the db was created using Code First");
-            }
-            // Up data
-            if(_upFilePath != null) {
-                // No checking on this so will throw FileNotFoundException if it can't find it
-                string upText = System.IO.File.ReadAllText(_upFilePath);
-                using SqliteCommand cmd = new SqliteCommand(upText, (SqliteConnection)_dbConnection);
-                cmd.ExecuteNonQuery();
             }
 
             // Seed data
