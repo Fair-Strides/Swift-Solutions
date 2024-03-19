@@ -13,20 +13,38 @@ import { getLocationCoords } from './util/getSearchLocationCoords.js';
 import { loadSearchBar, getSearchQuery, toggleNoEventsSection, toggleSearchingEventsSection,
         setCity, setCountry, setState, toggleSearching } from './util/searchBarEvents.js';
 import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
+import { getNearestCityAndState } from './util/getNearestCityAndState.js';
+import {getNearestCityAndStateAndCountry} from './util/getNearestCityAndStateAndCountry.js';
 
 let map = null;
 let page = 0;
 const pageSize = 10;
 
 // Fetch event data and display it
-document.addEventListener('DOMContentLoaded', async function () {
-    await loadSearchBar().then(
-        async () => {
-            await setCountry("United States");
-            await setState("Oregon");
-            setCity("Monmouth");
-        }
-    );
+// Call getLocation when the script is loaded
+document.addEventListener("DOMContentLoaded", async function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function (position) {
+            const { city, state, country } = await getNearestCityAndStateAndCountry(position.coords.latitude, position.coords.longitude);
+            await loadSearchBarAndEvents(city, state, country);
+        }, async function (error) {
+            if (error.code === error.PERMISSION_DENIED) {
+                const defaultCountry = "United States";
+                const defaultCity = "Las Vegas";
+                const defaultState = "Nevada";
+
+                await loadSearchBarAndEvents(defaultCity, defaultState, defaultCountry);
+            }
+        });
+    }
+}, { once: true });
+
+async function loadSearchBarAndEvents(city, state, country) {
+    await loadSearchBar().then(async () => {
+        await setCountry(country);
+        await setState(state);
+        setCity(city);
+    });
 
     document.getElementById('next-page-button').addEventListener('click', nextPage);
     document.getElementById('previous-page-button').addEventListener('click', previousPage);
@@ -42,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             await searchForEvents();
         }
     });
-}, { once: true });
+}
 
 /**
  * Takes in an event info object and adds it to the history via http and opens the event details modal
@@ -132,6 +150,7 @@ export async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container')
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template')
+    if(events.length === 0) return;
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
@@ -269,13 +288,15 @@ window.initMap = async function (events) {
                 onClickDetailsAsync(eventInfo);
             });
 
-            google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
+            // google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
         }
     });
-}
 
+    await displayEvents(events);
+}
 window.onload = async function () {
     if (document.getElementById('demo-map-id')) {
         loadMapScript();
     }
 }
+
