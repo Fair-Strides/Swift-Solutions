@@ -28,8 +28,6 @@ export async function loadSearchBar() {
 
     // Whenever the state changes, repopulate the cities
     stateSelect.addEventListener('change', async () => await updateCities());
-
-    countrySelect.dispatchEvent(new Event('change'));
 }
 
 /**
@@ -42,6 +40,7 @@ export function getSearchQuery() {
     const state = document.getElementById('search-event-state').value;
     const country = document.getElementById('search-event-country').value;
 
+    if(state === 'No states') return `${input} in ${city}, ${country}`;
     return `${input} in ${city}, ${state}, ${country}`;
 }
 
@@ -113,12 +112,20 @@ async function updateStates() {
 
     const states = await getStates(countrySelect.value);
     stateSelect.innerHTML = '';
-    states.forEach(state => {
+    if(states.length === 0) {
         const option = document.createElement('option');
-        option.value = state;
-        option.textContent = state;
+        option.value = '';
+        option.textContent = 'No states';
         stateSelect.appendChild(option);
-    });
+        return;
+    } else {
+        states.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+        });
+    }
 
     // Refresh the cities
     await updateCities();

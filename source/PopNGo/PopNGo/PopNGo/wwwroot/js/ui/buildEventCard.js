@@ -67,7 +67,9 @@ export const buildEventCard = (eventCardElement, props) => {
     const bookmarkImage = eventCardElement.querySelector('#event-card-bookmark-icon');
     bookmarkImage.src = props.favorited ? '/media/images/heart-filled.svg' : '/media/images/heart-outline.svg';
 
-    bookmarkContainer.addEventListener('click', () => {
+    bookmarkContainer.addEventListener('click', (event) => {
+        // Prevent the event from bubbling up (stop the event from triggering the card click event)
+        if (event && event.stopPropagation) event.stopPropagation();
         // Update the favorite status and the image source
         props.onPressFavorite();
         props.favorited = !props.favorited;

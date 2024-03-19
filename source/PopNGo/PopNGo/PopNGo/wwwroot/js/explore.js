@@ -54,7 +54,7 @@ async function loadSearchBarAndEvents(city, state) {
     document.getElementById('previous-page-button').addEventListener('click', previousPage);
 
     if (document.getElementById('events-container')) {
-        searchForEvents();
+        await searchForEvents();
     }
 
     document.getElementById('search-event-button').addEventListener('click', async function () { await searchForEvents(); });
@@ -79,6 +79,7 @@ async function onClickDetailsAsync(eventInfo) {
         EventName: eventInfo.eventName || "No name available",
         EventDescription: eventInfo.eventDescription || "No description available",
         EventLocation: eventInfo.full_Address || "No location available",
+        EventImage: eventInfo.eventThumbnail
     };
 
     const eventDetailsModalProps = {
@@ -274,7 +275,7 @@ window.initMap = async function (events) {
         google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map, getPaginationIndex()));
     }
 
-    events.forEach(async eventInfo => {
+    events?.forEach(async eventInfo => {
         // Add a marker on the map for the event
         if (eventInfo) {
             const lat = eventInfo.latitude ? eventInfo.latitude : 44.848; //Hardcoded Monmouth, Oregon coordinates for now

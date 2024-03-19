@@ -26,7 +26,8 @@ CREATE TABLE [Event] (
   [EventDate] DATETIME NOT NULL,
   [EventName] NVARCHAR(255) NOT NULL,
   [EventDescription] NVARCHAR(1000) NOT NULL,
-  [EventLocation] NVARCHAR(255) NOT NULL
+  [EventLocation] NVARCHAR(255) NOT NULL,
+  [EventImage] NVARCHAR(255)
 );
 
 CREATE TABLE [Tag] (

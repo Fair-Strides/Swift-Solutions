@@ -53,13 +53,26 @@ export async function getStates(country) {
 }
 
 export async function getCities(country, state) {
-    const locationInfo = {
-        country: country,
-        state: state
-    };
+    let locationInfo = {};
+    let apiUrl = '';
+
+    if(state !== "No states") {
+        locationInfo = {
+            country: country,
+            state: state
+        };
+        apiUrl = 'https://countriesnow.space/api/v0.1/countries/state/cities';
+
+    } else {
+        locationInfo = {
+            country: country
+        };
+
+        apiUrl = 'https://countriesnow.space/api/v0.1/countries/cities';
+    }
     
     try {
-        const response = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
