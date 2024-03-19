@@ -1,4 +1,4 @@
-﻿import { createTags, formatTags } from './util/tags.js';
+import { createTags, formatTags } from './util/tags.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 import { showToast } from './util/toast.js';
@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 }, { once: true });
-
 
 async function loadSearchBarAndEvents(city, state, country) {
     await loadSearchBar().then(async () => {
@@ -151,6 +150,7 @@ export async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container')
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template')
+    if(events.length === 0) return;
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
@@ -288,11 +288,12 @@ window.initMap = async function (events) {
                 onClickDetailsAsync(eventInfo);
             });
 
-            google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
+            // google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
         }
     });
-}
 
+    await displayEvents(events);
+}
 window.onload = async function () {
     if (document.getElementById('demo-map-id')) {
         loadMapScript();
@@ -362,4 +363,3 @@ function removeLocation(index) {
     localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
     displaySavedLocations();
 }
-
