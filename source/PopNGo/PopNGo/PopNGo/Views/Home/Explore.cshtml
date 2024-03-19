@@ -4,9 +4,7 @@
 @section Styles {
     <link href="~/css/components/searchbar.css" rel="stylesheet" />
 }
-
 <partial name="EventSearch" />
-
 <div class="container px-5">
     <div class="row">
         <div class="col-7">
@@ -29,11 +27,11 @@
     <button id="next-page-button" class="btn rounded-pill pagination-buttons">2</button>
 </div>
 
+<!-- Add the saved locations container here -->
 @* This is to load the unauthorized modal that can be found in Shared/_LoginUnauthorizedModal.cshtml*@
 <partial name="_LoginUnauthorizedModal" />
 
 <partial name="_EventDetailsModal" />
-
 
 @* This is the container for the "toasts" that appear on the side of the screen when favoriting/unfavorating*@
 <div id="toastContainer"></div>
