@@ -13,10 +13,10 @@ DECLARE @user1ID int = (SELECT [ID] FROM [PG_User] WHERE [ASPNETUserID] = '6b6c5
 DECLARE @user2ID int = (SELECT [ID] FROM [PG_User] WHERE [ASPNETUserID] = 'bb60f066-da0e-46b5-83d0-4d73d306dc64');
 
 -- Insert into Event
-INSERT INTO [Event] ([ApiEventID], [EventDate], [EventName], [EventDescription], [EventLocation]) 
-VALUES ('event1', '2022-01-01T00:00:00', 'Event 1', 'Description 1', 'Location 1');
-INSERT INTO [Event] ([ApiEventID], [EventDate], [EventName], [EventDescription], [EventLocation]) 
-VALUES ('event2', '2022-01-02T00:00:00', 'Event 2', 'Description 2', 'Location 2');
+INSERT INTO [Event] ([ApiEventID], [EventDate], [EventName], [EventDescription], [EventLocation], [EventImage]) 
+VALUES ('event1', '2022-01-01T00:00:00', 'Event 1', 'Description 1', 'Location 1', NULL);
+INSERT INTO [Event] ([ApiEventID], [EventDate], [EventName], [EventDescription], [EventLocation], [EventImage]) 
+VALUES ('event2', '2022-01-02T00:00:00', 'Event 2', 'Description 2', 'Location 2', NULL);
 
 -- Get the IDs of the events we just inserted
 DECLARE @event1ID int = (SELECT [ID] FROM [Event] WHERE [ApiEventID] = 'event1');

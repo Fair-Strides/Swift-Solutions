@@ -132,6 +132,7 @@ export async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container')
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template')
+    if(events.length === 0) return;
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
@@ -269,9 +270,11 @@ window.initMap = async function (events) {
                 onClickDetailsAsync(eventInfo);
             });
 
-            google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
+            // google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
         }
     });
+
+    await displayEvents(events);
 }
 
 window.onload = async function () {
