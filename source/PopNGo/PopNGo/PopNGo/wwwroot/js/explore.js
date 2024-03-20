@@ -1,4 +1,4 @@
-﻿import { createTags, formatTags } from './util/tags.js';
+import { createTags, formatTags } from './util/tags.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 import { showToast } from './util/toast.js';
